@@ -143,10 +143,10 @@ export const ExerciseSelector: React.FC<ExerciseSelectorProps> = ({
       name: '',
       description: '',
       instructions: [''],
-      muscleGroup: 'petto',
-      equipment: ['a corpo libero'],
-      difficulty: 'principiante',
-      category: 'forza'
+      muscleGroup: 'petto' as any,
+      equipment: ['a corpo libero'] as any,
+      difficulty: 'principiante' as any,
+      category: 'forza' as any
     });
     setShowCustomForm(false);
   };

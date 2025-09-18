@@ -3,7 +3,7 @@ import { Workout, WorkoutSession as WorkoutSessionType, ExerciseProgress, Set } 
 import { TimerDisplay } from './TimerDisplay';
 import { Navigation } from './Navigation';
 import { TimerSettings } from '../types';
-import { Play, Pause, CheckCircle, Clock, ArrowRight, Edit, Save } from 'lucide-react';
+import { Play, Pause, CheckCircle, Clock, ArrowRight, Edit, Save, X, ArrowLeft } from 'lucide-react';
 
 interface WorkoutSessionProps {
   workout: Workout;

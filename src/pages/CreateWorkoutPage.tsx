@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Workout, Exercise, WorkoutExercise, Set } from '../types';
 import { db } from '../db';
 import { ExerciseSelector } from '../components/ExerciseSelector';
+import { Navigation } from '../components/Navigation';
 import { Save, Trash2, Plus, Minus, ArrowLeft, Clock, Target, Download, Upload, Share2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -301,43 +302,38 @@ export const CreateWorkoutPage: React.FC = () => {
         ))}
       </div>
 
-      {/* Header */}
-      <div className="relative z-10 p-4">
-        <div className="flex items-center justify-between">
+          {/* Navigation */}
+      <Navigation showBackButton={true} currentPage="Crea Scheda" />
+
+      <div className="max-w-4xl mx-auto px-4 py-6 relative z-10">
+        <h1 className="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-6 text-center">
+          {workoutId ? 'Modifica Scheda' : 'Crea Scheda'}
+        </h1>
+        {/* Azioni rapide */}
+        <div className="flex justify-end space-x-2 mb-4">
           <button
-            onClick={() => navigate('/workouts')}
+            onClick={exportWorkout}
             className="p-3 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+            title="Esporta scheda"
           >
-            <ArrowLeft className="w-6 h-6 text-purple-600" />
+            <Download className="w-6 h-6 text-blue-600" />
           </button>
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-            {workoutId ? 'Modifica Scheda' : 'Crea Scheda'}
-          </h1>
-          <div className="flex items-center space-x-2">
+          <button
+            onClick={shareWorkout}
+            className="p-3 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+            title="Condividi scheda"
+          >
+            <Share2 className="w-6 h-6 text-green-600" />
+          </button>
+          {workoutId && (
             <button
-              onClick={exportWorkout}
+              onClick={deleteWorkout}
               className="p-3 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
-              title="Esporta scheda"
+              title="Elimina scheda"
             >
-              <Download className="w-6 h-6 text-blue-600" />
+              <Trash2 className="w-6 h-6 text-red-600" />
             </button>
-            <button
-              onClick={shareWorkout}
-              className="p-3 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
-              title="Condividi scheda"
-            >
-              <Share2 className="w-6 h-6 text-green-600" />
-            </button>
-            {workoutId && (
-              <button
-                onClick={deleteWorkout}
-                className="p-3 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
-                title="Elimina scheda"
-              >
-                <Trash2 className="w-6 h-6 text-red-600" />
-              </button>
-            )}
-          </div>
+          )}
         </div>
       </div>
 
@@ -409,7 +405,11 @@ export const CreateWorkoutPage: React.FC = () => {
         </div>
 
         {/* Selettore esercizi */}
-        <div className="animate-fade-in-up">
+        <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 animate-fade-in-up">
+          <h2 className="text-2xl font-bold text-purple-600 dark:text-purple-400 mb-6 flex items-center">
+            <span className="w-2 h-8 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full mr-3"></span>
+            Seleziona Esercizi
+          </h2>
           <ExerciseSelector
             selectedExercises={workout.exercises?.map(ex => ex.exercise) || []}
             onExerciseSelect={handleExerciseSelect}
@@ -440,7 +440,7 @@ export const CreateWorkoutPage: React.FC = () => {
 
             <div className="space-y-6">
               {workout.exercises.map((workoutExercise, exerciseIndex) => (
-                <div key={workoutExercise.id} className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 rounded-2xl p-6 border border-purple-200 dark:border-purple-800/50 transform hover:scale-[1.01] transition-all duration-300">
+                <div key={workoutExercise.id} className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl p-6 border border-purple-200 dark:border-purple-800/50 transform hover:scale-[1.01] transition-all duration-300">
                   <div className="flex justify-between items-start mb-4">
                     <div>
                       <h3 className="text-lg font-bold text-purple-700 dark:text-purple-300 mb-2">
@@ -594,7 +594,7 @@ export const CreateWorkoutPage: React.FC = () => {
       <footer className="relative z-10 bg-black/5 dark:bg-black/20 backdrop-blur-sm border-t border-white/10 dark:border-gray-800/50 mt-auto">
         <div className="max-w-4xl mx-auto px-4 py-4 text-center">
           <p className="text-sm text-gray-600 dark:text-gray-400">
-            © 2025 · Tutti i diritti riservati · Creato da Francesco Ronca
+            © 2025 · Tutti i diritti riservati
           </p>
         </div>
       </footer>

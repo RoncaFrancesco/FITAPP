@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAI } from '../hooks/useAI';
-import { AppHeader } from '../components/AppHeader';
+import { Navigation } from '../components/Navigation';
 import { AiWorkoutRequest, Workout, MuscleGroup, Equipment, ExperienceLevel, Goal } from '../types';
 import { Send, Bot, User, Save, Clock, Target, Dumbbell, Sparkles, ArrowLeft, Brain, Zap, TrendingUp, Heart, Activity } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -161,7 +161,13 @@ export const AICoachPage: React.FC = () => {
         ))}
       </div>
       {/* Header */}
-      <AppHeader title="AI Coach" showBackButton={true} currentPage="ai-coach" />
+      <Navigation showBackButton={true} currentPage="AI Coach" />
+
+      <div className="max-w-4xl mx-auto px-4 py-6 relative z-10">
+        <h1 className="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-6 text-center">
+          AI Coach
+        </h1>
+      </div>
 
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-purple-600 to-blue-600 text-white p-6 m-4 rounded-2xl shadow-2xl">
@@ -171,8 +177,7 @@ export const AICoachPage: React.FC = () => {
               <Brain className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold">AI Coach</h1>
-              <p className="text-purple-100">Il tuo personal trainer intelligente</p>
+              <p className="text-purple-100 text-lg">Il tuo personal trainer intelligente</p>
             </div>
           </div>
           <div className="flex space-x-2">
@@ -677,7 +682,7 @@ export const AICoachPage: React.FC = () => {
       <footer className="relative z-10 bg-black/5 dark:bg-black/20 backdrop-blur-sm border-t border-white/10 dark:border-gray-800/50 mt-auto">
         <div className="max-w-4xl mx-auto px-4 py-4 text-center">
           <p className="text-sm text-gray-600 dark:text-gray-400">
-            © 2025 · Tutti i diritti riservati · Creato da Francesco Ronca
+            © 2025 · Tutti i diritti riservati
           </p>
         </div>
       </footer>

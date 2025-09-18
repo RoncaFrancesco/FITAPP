@@ -27,6 +27,7 @@ export class FitnessDatabase extends Dexie {
     const preferencesCount = await this.preferences.count();
     if (preferencesCount === 0) {
       await this.preferences.add({
+        id: 'default',
         theme: 'system',
         defaultRestTime: 60,
         defaultTimerSettings: {
@@ -1152,6 +1153,217 @@ export class FitnessDatabase extends Dexie {
         equipment: ['macchina'] as any,
         difficulty: 'principiante' as any,
         category: 'cardio' as any,
+        isCustom: false
+      },
+      // Stretching e Allungamento aggiuntivi
+      {
+        name: 'Stretching completo collo',
+        description: 'Allungamento muscoli del collo',
+        instructions: ['Siediti dritto', 'Inclina la testa a destra', 'Mantieni 15 secondi', 'Ripeti dall\'altro lato'],
+        muscleGroup: 'stretching' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'principiante' as any,
+        category: 'flessibilità' as any,
+        isCustom: false
+      },
+      {
+        name: 'Rotazioni spalle',
+        description: 'Mobilità articolare spalle',
+        instructions: ['In piedi braccia rilassate', 'Rotazione spalle in avanti', 'Rotazione spalle indietro', '10 ripetizioni per lato'],
+        muscleGroup: 'stretching' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'principiante' as any,
+        category: 'flessibilità' as any,
+        isCustom: false
+      },
+      {
+        name: 'Stretching tricipiti',
+        description: 'Allungamento braccia posteriori',
+        instructions: ['Braccio sopra la testa', 'Piega il gomito', 'Spingi con l\'altra mano', 'Mantieni 20 secondi'],
+        muscleGroup: 'stretching' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'principiante' as any,
+        category: 'flessibilità' as any,
+        isCustom: false
+      },
+      {
+        name: 'Stretching bicipiti',
+        description: 'Allungamento braccia anteriori',
+        instructions: ['Braccio teso dietro la schiena', 'Piega il polso', 'Spingi delicatamente', 'Mantieni 20 secondi'],
+        muscleGroup: 'stretching' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'principiante' as any,
+        category: 'flessibilità' as any,
+        isCustom: false
+      },
+      {
+        name: 'Stretching avambracci',
+        description: 'Allungamento polsi e avambracci',
+        instructions: ['Braccio teso davanti', 'Mano verso il basso', 'Spingi con l\'altra mano', 'Mantieni 15 secondi'],
+        muscleGroup: 'stretching' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'principiante' as any,
+        category: 'flessibilità' as any,
+        isCustom: false
+      },
+      {
+        name: 'Stretching adduttori',
+        description: 'Allungamento interno cosce',
+        instructions: ['Siediti a terra', 'Piante dei piedi unite', 'Spingi le ginocchia verso il basso', 'Mantieni 30 secondi'],
+        muscleGroup: 'stretching' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'principiante' as any,
+        category: 'flessibilità' as any,
+        isCustom: false
+      },
+      {
+        name: 'Stretching abduttori',
+        description: 'Allungamento esterno cosce',
+        instructions: ['Siediti a terra', 'Gambe divaricate', 'Piega verso una gamba', 'Mantieni 20 secondi per lato'],
+        muscleGroup: 'stretching' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'principiante' as any,
+        category: 'flessibilità' as any,
+        isCustom: false
+      },
+      {
+        name: 'Stretching glutei',
+        description: 'Allungamento muscoli glutei',
+        instructions: ['Sdraiato sulla schiena', 'Gamba piegata sul petto', 'Tira verso il petto', 'Mantieni 30 secondi'],
+        muscleGroup: 'stretching' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'principiante' as any,
+        category: 'flessibilità' as any,
+        isCustom: false
+      },
+      {
+        name: 'Stretching lombari',
+        description: 'Allungamento schiena bassa',
+        instructions: ['Sdraiato sulla schiena', 'Gambe piegate', 'Porta le ginocchia al petto', 'Mantieni 30 secondi'],
+        muscleGroup: 'stretching' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'principiante' as any,
+        category: 'flessibilità' as any,
+        isCustom: false
+      },
+      {
+        name: 'Stretching dorsali',
+        description: 'Allungamento schiena alta',
+        instructions: ['In piedi braccia tese', 'Inca le dita delle mani', 'Spingi le spalle in basso', 'Mantieni 20 secondi'],
+        muscleGroup: 'stretching' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'principiante' as any,
+        category: 'flessibilità' as any,
+        isCustom: false
+      },
+      {
+        name: 'Posizione del cane',
+        description: 'Allungamento completo corpo',
+        instructions: ['Posizione quadrupedia', 'Solleva i fianchi', 'Forma V invertita', 'Mantieni 30 secondi'],
+        muscleGroup: 'stretching' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'principiante' as any,
+        category: 'flessibilità' as any,
+        isCustom: false
+      },
+      {
+        name: 'Posizione del bambino',
+        description: 'Rilassamento e allungamento',
+        instructions: ['Inginocchiati', 'Siediti sui talloni', 'Busta in avanti', 'Braccia tese davanti'],
+        muscleGroup: 'stretching' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'principiante' as any,
+        category: 'flessibilità' as any,
+        isCustom: false
+      },
+      {
+        name: 'Stretching psoas',
+        description: 'Allungamento muscolo flessore anca',
+        instructions: ['Inginocchiato su una gamba', 'Altra gamba avanti', 'Spingi i fianchi in avanti', 'Mantieni 30 secondi'],
+        muscleGroup: 'stretching' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'intermedio' as any,
+        category: 'flessibilità' as any,
+        isCustom: false
+      },
+      {
+        name: 'Stretching piriforme',
+        description: 'Allungamento muscolo piriforme',
+        instructions: ['Sdraiato sulla schiena', 'Gamba piegata sul petto', 'Mantieni la caviglia sul ginocchio opposto', 'Tira verso il petto'],
+        muscleGroup: 'stretching' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'intermedio' as any,
+        category: 'flessibilità' as any,
+        isCustom: false
+      },
+      {
+        name: 'Stretching tensore fascia lata',
+        description: 'Allungamento banda laterale coscia',
+        instructions: ['In piedi', 'Incrocia le gambe', 'Piega lateralmente', 'Mantieni 20 secondi per lato'],
+        muscleGroup: 'stretching' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'principiante' as any,
+        category: 'flessibilità' as any,
+        isCustom: false
+      },
+      {
+        name: 'Stretching piedi e caviglie',
+        description: 'Allungamento piedi e caviglie',
+        instructions: ['Seduto a terra', 'Afferra il piede', 'Ruota la caviglia', 'Piega le dita'],
+        muscleGroup: 'stretching' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'principiante' as any,
+        category: 'flessibilità' as any,
+        isCustom: false
+      },
+      {
+        name: 'Stretching trapezio',
+        description: 'Allungamento muscoli trapezio',
+        instructions: ['Siediti dritto', 'Inclina la testa verso una spalla', 'Mantieni 15 secondi', 'Ripeti dall\'altro lato'],
+        muscleGroup: 'stretching' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'principiante' as any,
+        category: 'flessibilità' as any,
+        isCustom: false
+      },
+      {
+        name: 'Stretching obliqui',
+        description: 'Allungamento muscoli obliqui',
+        instructions: ['In piedi braccia tese', 'Piega lateralmente', 'Allunga le braccia', 'Mantieni 20 secondi'],
+        muscleGroup: 'stretching' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'principiante' as any,
+        category: 'flessibilità' as any,
+        isCustom: false
+      },
+      {
+        name: 'Stretching completo post allenamento',
+        description: 'Routine stretching completa',
+        instructions: ['Esegui tutti gli allungamenti principali', 'Mantieni ogni posizione 30 secondi', 'Respira profondamente', 'Rilascia lentamente'],
+        muscleGroup: 'stretching' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'principiante' as any,
+        category: 'flessibilità' as any,
+        isCustom: false
+      },
+      {
+        name: 'Stretching dinamico gambe',
+        description: 'Allungamento dinamico preparatorio',
+        instructions: ['In piedi', 'Balza su un piede', 'Mantieni l\'altro gamba tesa', 'Oscilla avanti e indietro'],
+        muscleGroup: 'stretching' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'principiante' as any,
+        category: 'flessibilità' as any,
+        isCustom: false
+      },
+      {
+        name: 'Stretching mobilità anche',
+        description: 'Mobilità articolare anche',
+        instructions: ['Sdraiato sulla schiena', 'Gambe piegate', 'Ruota le ginocchia in cerchio', 'Cambia direzione'],
+        muscleGroup: 'stretching' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'principiante' as any,
+        category: 'flessibilità' as any,
         isCustom: false
       }
     ];

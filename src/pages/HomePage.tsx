@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { AppHeader } from '../components/AppHeader';
-import { Activity, TrendingUp, Award, Calendar, Target, Clock, Flame, Star, Trophy, Zap } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Navigation } from '../components/Navigation';
+import { Activity, TrendingUp, Award, Calendar, Target, Clock, Flame, Star, Trophy, Zap, Dumbbell, Plus, Timer as TimerIcon, Brain, BarChart3 } from 'lucide-react';
 import { db } from '../db';
 
 export const HomePage: React.FC = () => {
+  const navigate = useNavigate();
   const [stats, setStats] = useState({
     totalWorkouts: 0,
     totalSchedules: 0,
@@ -224,7 +226,7 @@ export const HomePage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900 relative overflow-hidden">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900 relative overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {[...Array(15)].map((_, i) => (
@@ -242,31 +244,28 @@ export const HomePage: React.FC = () => {
           />
         ))}
       </div>
-      {/* Header */}
-      <AppHeader currentPage="home" />
+      {/* Navigation */}
+      <Navigation showBackButton={false} currentPage="Home" />
 
       <div className="max-w-4xl mx-auto px-4 py-6">
         {/* Welcome Message */}
-        <div className="mb-8 text-center animate-fade-in-up">
+        <div className="mb-6 text-center animate-fade-in-up">
           <div className="mb-4">
-            <div className="w-20 h-20 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg animate-pulse">
-              <Activity className="w-10 h-10 text-white" />
+            <div className="w-16 h-16 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg animate-pulse">
+              <Activity className="w-8 h-8 text-white" />
             </div>
           </div>
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">
             Benvenuto in FIT
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400 mb-4">
-            Il tuo personal trainer sempre con te
-          </p>
-          <div className="text-sm text-gray-500 dark:text-gray-400 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-full px-4 py-2 inline-block">
+          <p className="text-sm text-gray-600 dark:text-gray-400 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-full px-4 py-2 inline-block">
             {new Date().toLocaleDateString('it', {
               weekday: 'long',
               year: 'numeric',
               month: 'long',
               day: 'numeric'
             })}
-          </div>
+          </p>
         </div>
 
         {/* Stats Card */}
@@ -304,8 +303,7 @@ export const HomePage: React.FC = () => {
           <div className="mt-6 text-center">
             <button
               onClick={() => {
-                // Navigate to workouts page
-                window.location.href = '/workouts';
+                navigate('/workouts');
               }}
               className="bg-white/20 backdrop-blur-sm border border-white/30 rounded-full px-6 py-3 text-white font-medium hover:bg-white/30 transform hover:scale-105 transition-all duration-300 shadow-lg"
             >
@@ -523,7 +521,7 @@ export const HomePage: React.FC = () => {
       <footer className="relative z-10 bg-black/5 dark:bg-black/20 backdrop-blur-sm border-t border-white/10 dark:border-gray-800/50 mt-auto">
         <div className="max-w-4xl mx-auto px-4 py-4 text-center">
           <p className="text-sm text-gray-600 dark:text-gray-400">
-            © 2025 · Tutti i diritti riservati · Creato da Francesco Ronca
+            © 2025 · Tutti i diritti riservati
           </p>
         </div>
       </footer>

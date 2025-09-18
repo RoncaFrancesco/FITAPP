@@ -143,10 +143,10 @@ export const ExerciseSelector: React.FC<ExerciseSelectorProps> = ({
       name: '',
       description: '',
       instructions: [''],
-      muscleGroup: MuscleGroup.CHEST,
-      equipment: [Equipment.BODYWEIGHT],
-      difficulty: Difficulty.BEGINNER,
-      category: ExerciseCategory.STRENGTH
+      muscleGroup: 'petto',
+      equipment: ['a corpo libero'],
+      difficulty: 'principiante',
+      category: 'forza'
     });
     setShowCustomForm(false);
   };
@@ -190,8 +190,7 @@ export const ExerciseSelector: React.FC<ExerciseSelectorProps> = ({
   return (
     <div className="space-y-4">
       {/* Header */}
-      <div className="flex justify-between items-center">
-        <h2 className="text-xl font-semibold text-gray-800">Seleziona Esercizi</h2>
+      <div className="flex justify-end items-center">
         <div className="flex items-center space-x-2">
           <button
             onClick={() => setShowCustomForm(true)}
@@ -497,7 +496,7 @@ export const ExerciseSelector: React.FC<ExerciseSelectorProps> = ({
               className={`p-4 border rounded-lg cursor-pointer transition-all ${
                 isSelected(exercise.id)
                   ? 'border-blue-500 bg-blue-50'
-                  : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
+                  : 'border-gray-200 hover:border-gray-300'
               }`}
               onClick={() => {
                 if (!isSelected(exercise.id)) {
@@ -507,7 +506,7 @@ export const ExerciseSelector: React.FC<ExerciseSelectorProps> = ({
             >
               <div className="flex justify-between items-start">
                 <div className="flex-1">
-                  <h3 className="font-medium text-gray-800 mb-1">
+                  <h3 className="font-medium text-white mb-1">
                     {exercise.name}
                     {exercise.isCustom && (
                       <span className="ml-2 px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-xs">
@@ -515,7 +514,7 @@ export const ExerciseSelector: React.FC<ExerciseSelectorProps> = ({
                       </span>
                     )}
                   </h3>
-                  <p className="text-sm text-gray-600 mb-2">{exercise.description}</p>
+                  <p className="text-sm text-gray-200 mb-2">{exercise.description}</p>
 
                   <div className="flex flex-wrap gap-2">
                     <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs">

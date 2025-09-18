@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AppHeader } from '../components/AppHeader';
+import { Navigation } from '../components/Navigation';
 import { TimerDisplay } from '../components/TimerDisplay';
 import { TimerSettings } from '../types';
 import { ArrowLeft, Clock, Zap, Target, Play, Dumbbell, Activity, Heart } from 'lucide-react';
@@ -27,7 +27,7 @@ export const TimerPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900 relative overflow-hidden">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900 relative overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {[...Array(15)].map((_, i) => (
@@ -46,21 +46,13 @@ export const TimerPage: React.FC = () => {
         ))}
       </div>
 
-      {/* Header semplificato */}
-      <div className="relative z-10 p-4">
-        <div className="flex items-center justify-between">
-          <button
-            onClick={() => navigate('/')}
-            className="p-3 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
-          >
-            <ArrowLeft className="w-6 h-6 text-purple-600" />
-          </button>
-          <h1 className="text-2xl font-bold text-purple-600 dark:text-purple-400 flex items-center">
-            <span className="w-2 h-8 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full mr-3"></span>
-            Circuit Timer
-          </h1>
-          <div className="w-12"></div> {/* Spacer per centrare il titolo */}
-        </div>
+        {/* Navigation */}
+      <Navigation showBackButton={true} currentPage="Timer" />
+
+      <div className="max-w-4xl mx-auto px-4 py-6 relative z-10">
+        <h1 className="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-6 text-center">
+          Circuit Timer
+        </h1>
       </div>
 
       {/* Contenuto principale */}
@@ -215,7 +207,7 @@ export const TimerPage: React.FC = () => {
       <footer className="relative z-10 bg-black/5 dark:bg-black/20 backdrop-blur-sm border-t border-white/10 dark:border-gray-800/50 mt-auto">
         <div className="max-w-4xl mx-auto px-4 py-4 text-center">
           <p className="text-sm text-gray-600 dark:text-gray-400">
-            © 2025 · Tutti i diritti riservati · Creato da Francesco Ronca
+            © 2025 · Tutti i diritti riservati
           </p>
         </div>
       </footer>

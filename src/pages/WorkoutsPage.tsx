@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Workout, WorkoutSession } from '../types';
 import { db } from '../db';
-import { AppHeader } from '../components/AppHeader';
+import { Navigation } from '../components/Navigation';
 import { WorkoutSession as WorkoutSessionComponent } from '../components/WorkoutSession';
 import { Plus, Play, Calendar, Trash2, Edit, Clock, Dumbbell, Target } from 'lucide-react';
 import toast from 'react-hot-toast';
@@ -101,7 +101,7 @@ export const WorkoutsPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900 relative overflow-hidden">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900 relative overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {[...Array(12)].map((_, i) => (
@@ -120,9 +120,12 @@ export const WorkoutsPage: React.FC = () => {
         ))}
       </div>
       {/* Header */}
-      <AppHeader title="Le tue Schede" showBackButton={true} currentPage="workouts" />
+      <Navigation showBackButton={true} currentPage="Le tue Schede" />
 
       <div className="max-w-4xl mx-auto px-4 py-6 relative z-10">
+        <h1 className="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-6 text-center">
+          Le tue Schede
+        </h1>
         <div className="flex justify-between items-center mb-6 animate-fade-in-up">
           <button
             onClick={() => navigate('/create-workout')}
@@ -284,7 +287,7 @@ export const WorkoutsPage: React.FC = () => {
       <footer className="relative z-10 bg-black/5 dark:bg-black/20 backdrop-blur-sm border-t border-white/10 dark:border-gray-800/50 mt-auto">
         <div className="max-w-4xl mx-auto px-4 py-4 text-center">
           <p className="text-sm text-gray-600 dark:text-gray-400">
-            © 2025 · Tutti i diritti riservati · Creato da Francesco Ronca
+            © 2025 · Tutti i diritti riservati
           </p>
         </div>
       </footer>

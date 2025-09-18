@@ -7,14 +7,9 @@ const STATIC_FILES = [
   '/index.html',
   '/favicon.ico',
   '/manifest.json',
-  '/assets/icons/icon-72x72.png',
-  '/assets/icons/icon-96x96.png',
-  '/assets/icons/icon-128x128.png',
-  '/assets/icons/icon-144x144.png',
-  '/assets/icons/icon-152x152.png',
-  '/assets/icons/icon-192x192.png',
-  '/assets/icons/icon-384x384.png',
-  '/assets/icons/icon-512x512.png'
+  '/icons/icon-192x192.png',
+  '/icons/icon-512x512.png',
+  '/icons/icon.svg'
 ];
 
 // Install event - cache static assets
@@ -111,8 +106,8 @@ self.addEventListener('push', (event) => {
     const data = event.data.json();
     const options = {
       body: data.body,
-      icon: '/assets/icons/icon-192x192.png',
-      badge: '/assets/icons/icon-72x72.png',
+      icon: '/icons/icon-192x192.png',
+      badge: '/icons/icon-192x192.png',
       vibrate: [100, 50, 100],
       data: {
         url: data.url

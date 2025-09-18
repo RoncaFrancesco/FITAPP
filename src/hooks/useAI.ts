@@ -80,7 +80,7 @@ Rispondi solo con il JSON valido, senza altro testo.
       // Tenta di usare l'API AI se disponibile
       if (apiKey) {
         try {
-          response = await callGeminiAPI(prompt, cacheKey);
+          response = await callChatZAI(prompt, cacheKey);
         } catch (error) {
           console.error('AI API error, falling back to templates:', error);
           response = generateTemplateWorkout(request);
@@ -102,70 +102,66 @@ Rispondi solo con il JSON valido, senza altro testo.
     }
   }, [apiKey]);
 
-  const callGeminiAPI = async (prompt: string, cacheKey: string): Promise<Workout> => {
+  const callChatZAI = async (prompt: string, cacheKey: string): Promise<Workout> => {
     try {
-      // Simula chiamata API (in produzione, qui andrebbe la vera chiamata a Gemini)
-      // Questo è un placeholder per dimostrare l'integrazione
+      // Configurazione per chat.z.ai
+      const response = await fetch('https://chat.z.ai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+          model: 'gpt-3.5-turbo', // o 'gpt-4' se disponibile
+          messages: [
+            {
+              role: 'system',
+              content: 'Sei un esperto personal trainer e allenatore fitness. Crea schede di allenamento personalizzate basate sulle esigenze dell\'utente. Rispondi sempre con un JSON valido che rappresenti una scheda di allenamento completa.'
+            },
+            {
+              role: 'user',
+              content: prompt
+            }
+          ],
+          max_tokens: 2000,
+          temperature: 0.7
+        })
+      });
 
-      // Simula ritardo della rete
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      if (!response.ok) {
+        throw new Error(`API call failed: ${response.status} ${response.statusText}`);
+      }
 
-      // Per ora, genera una risposta di test
-      // In produzione, qui chiameresti davvero l'API di Gemini
-      const mockResponse = `{
-        "name": "Allenamento Completo per ${prompt.includes('principiante') ? 'Principianti' : 'Intermedi'}",
-        "description": "Scheda generata dall'AI basata sulle tue preferenze",
-        "exercises": [
-          {
-            "exerciseName": "Squat",
-            "sets": 3,
-            "reps": 12,
-            "weight": null,
-            "restTime": 90,
-            "notes": "Mantieni la schiena dritta"
-          },
-          {
-            "exerciseName": "Push-up",
-            "sets": 3,
-            "reps": 15,
-            "weight": null,
-            "restTime": 60,
-            "notes": "Braccia alla larghezza delle spalle"
-          },
-          {
-            "exerciseName": "Plank",
-            "sets": 3,
-            "reps": 1,
-            "weight": null,
-            "restTime": 45,
-            "notes": "Mantieni la posizione 30-60 secondi"
-          }
-        ],
-        "estimatedDuration": 30,
-        "tags": ["full-body", "a corpo libero"]
-      }`;
+      const data = await response.json();
+      const content = data.choices[0].message.content;
 
-      const workoutData = JSON.parse(mockResponse);
+      // Estrai il JSON dalla risposta
+      const jsonMatch = content.match(/\{[\s\S]*\}/);
+      if (!jsonMatch) {
+        throw new Error('No valid JSON found in response');
+      }
+
+      const workoutData = JSON.parse(jsonMatch[0]);
 
       // Converti in Workout completo cercando gli esercizi nel database
       const workout: Workout = {
         id: crypto.randomUUID(),
-        name: workoutData.name,
-        description: workoutData.description,
-        exercises: await Promise.all(workoutData.exercises.map(async (ex: any) => {
+        name: workoutData.name || 'Allenamento AI',
+        description: workoutData.description || 'Scheda generata dall\'AI',
+        exercises: await Promise.all((workoutData.exercises || []).map(async (ex: any) => {
           // Cerca l'esercizio nel database
-          const exercise = await findBestMatch(ex.exerciseName);
+          const exercise = await findBestMatch(ex.exerciseName || ex.name);
 
           return {
             id: crypto.randomUUID(),
             exercise,
-            sets: Array.from({ length: ex.sets }, () => ({
-              reps: ex.reps,
-              weight: ex.weight,
-              duration: ex.duration,
+            sets: Array.from({ length: ex.sets || 3 }, () => ({
+              reps: ex.reps || 12,
+              weight: ex.weight || null,
+              duration: ex.duration || null,
               completed: false
             })),
-            restTime: ex.restTime,
+            restTime: ex.restTime || 60,
             notes: ex.notes || '',
             order: 0
           };
@@ -173,13 +169,13 @@ Rispondi solo con il JSON valido, senza altro testo.
         createdAt: new Date(),
         updatedAt: new Date(),
         isCustom: true,
-        estimatedDuration: workoutData.estimatedDuration,
+        estimatedDuration: workoutData.estimatedDuration || 30,
         tags: workoutData.tags || []
       };
 
       return workout;
     } catch (error) {
-      console.error('Gemini API call failed:', error);
+      console.error('Chat.z.ai API call failed:', error);
       throw error;
     }
   };

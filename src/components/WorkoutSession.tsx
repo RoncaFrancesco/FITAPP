@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Workout, WorkoutSession as WorkoutSessionType, ExerciseProgress, Set } from '../types';
 import { TimerDisplay } from './TimerDisplay';
+import { Navigation } from './Navigation';
 import { TimerSettings } from '../types';
-import { Play, Pause, CheckCircle, Clock, ArrowLeft, ArrowRight, Edit, Save, X } from 'lucide-react';
+import { Play, Pause, CheckCircle, Clock, ArrowRight, Edit, Save } from 'lucide-react';
 
 interface WorkoutSessionProps {
   workout: Workout;
@@ -155,7 +156,7 @@ export const WorkoutSession: React.FC<WorkoutSessionProps> = ({
     currentProgress.completedSets.every((set: any) => set.completed);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900 relative overflow-hidden">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900 relative overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {[...Array(15)].map((_, i) => (
@@ -174,26 +175,25 @@ export const WorkoutSession: React.FC<WorkoutSessionProps> = ({
         ))}
       </div>
 
-      {/* Header */}
-      <div className="relative z-10 p-4">
-        <div className="flex justify-between items-center mb-4">
-          <button
-            onClick={onExit}
-            className="p-3 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
-          >
-            <X className="w-6 h-6 text-purple-600" />
-          </button>
-          <h1 className="text-xl font-bold text-purple-600 dark:text-purple-400 flex items-center">
-            <span className="w-2 h-6 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full mr-3"></span>
-            {workout.name}
-          </h1>
+          {/* Navigation */}
+      <div className="relative z-10">
+        <Navigation showBackButton={true} currentPage="Workout Session" />
+
+      <div className="max-w-4xl mx-auto px-4 py-6 relative z-10">
+        <h1 className="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-6 text-center">
+          {workout.name}
+        </h1>
+        {/* Pulsante pausa prominente */}
+        <div className="mb-6">
           <button
             onClick={onPause}
-            className="p-3 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+            className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-3 rounded-2xl hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2 shadow-lg"
           >
-            <Pause className="w-6 h-6 text-purple-600" />
+            <Pause className="w-6 h-6" />
+            <span className="font-medium text-lg">Pausa Allenamento</span>
           </button>
         </div>
+      </div>
 
         {/* Progresso totale */}
         <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl p-4 shadow-lg">
@@ -434,7 +434,7 @@ export const WorkoutSession: React.FC<WorkoutSessionProps> = ({
       <footer className="relative z-10 bg-black/5 dark:bg-black/20 backdrop-blur-sm border-t border-white/10 dark:border-gray-800/50 mt-auto">
         <div className="max-w-4xl mx-auto px-4 py-4 text-center">
           <p className="text-sm text-gray-600 dark:text-gray-400">
-            © 2025 · Tutti i diritti riservati · Creato da Francesco Ronca
+            © 2025 · Tutti i diritti riservati
           </p>
         </div>
       </footer>

@@ -1,0 +1,25 @@
+// Script per generare le icone PWA
+const fs = require('fs');
+const path = require('path');
+
+// SVG content per l'icona
+const svgContent = `<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="256" cy="256" r="256" fill="#8b5cf6"/>
+  <g transform="translate(256, 256)">
+    <rect x="-180" y="-15" width="40" height="30" rx="5" fill="#ffffff"/>
+    <rect x="-170" y="-25" width="20" height="50" rx="3" fill="#ffffff"/>
+    <rect x="-150" y="-8" width="300" height="16" rx="8" fill="#ffffff"/>
+    <rect x="140" y="-15" width="40" height="30" rx="5" fill="#ffffff"/>
+    <rect x="150" y="-25" width="20" height="50" rx="3" fill="#ffffff"/>
+  </g>
+  <text x="256" y="350" text-anchor="middle" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="#ffffff">FIT</text>
+</svg>`;
+
+// Scrivi il file SVG
+fs.writeFileSync(path.join(__dirname, 'icons', 'icon.svg'), svgContent);
+
+console.log('Icona SVG generata con successo!');
+console.log('Per generare le icone PNG, usa uno strumento online come:');
+console.log('https://convertio.co/it/svg-png/');
+console.log('Oppure installa ImageMagick e usa il comando:');
+console.log('convert icon.svg -resize 192x192 icon-192x192.png');

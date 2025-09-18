@@ -123,10 +123,16 @@ export const WorkoutsPage: React.FC = () => {
       <Navigation showBackButton={true} currentPage="Le tue Schede" />
 
       <div className="max-w-4xl mx-auto px-4 py-6 relative z-10">
-        <h1 className="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-6 text-center">
-          Le tue Schede
-        </h1>
-        <div className="flex justify-between items-center mb-6 animate-fade-in-up">
+        {/* Header con titolo e pulsante */}
+        <div className="flex justify-between items-center mb-8 animate-fade-in-up">
+          <div>
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">
+              Le tue Schede
+            </h1>
+            <p className="text-gray-600 dark:text-gray-400">
+              Gestisci i tuoi programmi di allenamento
+            </p>
+          </div>
           <button
             onClick={() => navigate('/create-workout')}
             className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-2xl hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center space-x-2 shadow-lg"
@@ -136,6 +142,39 @@ export const WorkoutsPage: React.FC = () => {
           </button>
         </div>
 
+        {/* Stats概览 */}
+        {!loading && workouts.length > 0 && (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8 animate-fade-in-up">
+            <div className="bg-gradient-to-r from-purple-600 to-purple-700 rounded-2xl p-6 text-white shadow-xl">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-purple-100 text-sm">Schede Totali</p>
+                  <p className="text-3xl font-bold">{workouts.length}</p>
+                </div>
+                <Dumbbell className="w-12 h-12 text-purple-200" />
+              </div>
+            </div>
+            <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl p-6 text-white shadow-xl">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-blue-100 text-sm">Esercizi Totali</p>
+                  <p className="text-3xl font-bold">{workouts.reduce((acc, w) => acc + w.exercises.length, 0)}</p>
+                </div>
+                <Target className="w-12 h-12 text-blue-200" />
+              </div>
+            </div>
+            <div className="bg-gradient-to-r from-green-600 to-green-700 rounded-2xl p-6 text-white shadow-xl">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-green-100 text-sm">Tempo Totale</p>
+                  <p className="text-3xl font-bold">{formatDuration(workouts.reduce((acc, w) => acc + w.estimatedDuration, 0))}</p>
+                </div>
+                <Clock className="w-12 h-12 text-green-200" />
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Lista schede */}
         <div className="space-y-6">
           {loading ? (
@@ -143,136 +182,149 @@ export const WorkoutsPage: React.FC = () => {
               <div className="animate-spin rounded-full h-16 w-16 border-4 border-purple-600 border-t-transparent"></div>
             </div>
           ) : workouts.length === 0 ? (
-            <div className="text-center py-12 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-xl animate-fade-in-up">
+            <div className="text-center py-16 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-xl animate-fade-in-up">
               <div className="w-24 h-24 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
                 <Dumbbell className="w-12 h-12 text-white animate-pulse" />
               </div>
-              <h3 className="text-2xl font-bold text-purple-600 dark:text-purple-400 mb-4 flex items-center justify-center">
-                <span className="w-2 h-8 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full mr-3"></span>
-                Nessuna scheda disponibile
+              <h3 className="text-2xl font-bold text-purple-600 dark:text-purple-400 mb-4">
+                Inizia il tuo viaggio fitness
               </h3>
-              <p className="text-gray-600 dark:text-gray-400 mb-6 text-lg">
-                Crea la tua prima scheda di allenamento per iniziare
+              <p className="text-gray-600 dark:text-gray-400 mb-6 text-lg max-w-md mx-auto">
+                Crea la tua prima scheda di allenamento personalizzata e raggiungi i tuoi obiettivi
               </p>
               <button
                 onClick={() => navigate('/create-workout')}
                 className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-4 rounded-2xl hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center space-x-2 mx-auto shadow-lg"
               >
                 <Plus className="w-6 h-6" />
-                <span className="font-medium text-lg">Crea Scheda</span>
+                <span className="font-medium text-lg">Crea la tua prima scheda</span>
               </button>
             </div>
           ) : (
-            <div className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {workouts.map((workout) => (
                 <div key={workout.id} className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl shadow-xl overflow-hidden transform hover:scale-[1.02] transition-all duration-300 animate-fade-in-up">
-                  <div className="p-6">
-                    <div className="flex justify-between items-start mb-4">
-                      <div className="flex-1">
-                        <h3 className="text-xl font-bold text-purple-700 dark:text-purple-300 mb-2">
-                          {workout.name}
-                        </h3>
-                        <p className="text-gray-600 dark:text-gray-400 text-base mb-3">
-                          {workout.description}
-                        </p>
-                      </div>
+                  {/* Header card */}
+                  <div className="bg-gradient-to-r from-purple-600 to-blue-600 p-4 text-white">
+                    <div className="flex justify-between items-start mb-2">
+                      <h3 className="text-xl font-bold flex-1 mr-4">
+                        {workout.name}
+                      </h3>
                       <div className="flex space-x-2">
                         <button
                           onClick={() => editWorkout(workout.id)}
-                          className="p-3 bg-blue-100 text-blue-600 hover:bg-blue-200 rounded-xl transition-all duration-300 transform hover:scale-110"
+                          className="p-2 bg-white/20 hover:bg-white/30 rounded-lg transition-all duration-300 transform hover:scale-110"
                         >
-                          <Edit className="w-5 h-5" />
+                          <Edit className="w-4 h-4 text-white" />
                         </button>
                         <button
                           onClick={() => deleteWorkout(workout.id)}
-                          className="p-3 bg-red-100 text-red-600 hover:bg-red-200 rounded-xl transition-all duration-300 transform hover:scale-110"
+                          className="p-2 bg-white/20 hover:bg-white/30 rounded-lg transition-all duration-300 transform hover:scale-110"
                         >
-                          <Trash2 className="w-5 h-5" />
+                          <Trash2 className="w-4 h-4 text-white" />
                         </button>
                       </div>
                     </div>
+                    <p className="text-purple-100 text-sm opacity-90">
+                      {workout.description}
+                    </p>
+                  </div>
 
-                    {/* Stats */}
-                    <div className="flex flex-wrap gap-3 mb-3">
-                      <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400 bg-white/50 dark:bg-gray-700/50 rounded-full px-3 py-1">
-                        <Target className="w-4 h-4 text-purple-600" />
-                        <span className="font-medium">{workout.exercises.length} esercizi</span>
+                  {/* Contenuto card */}
+                  <div className="p-6">
+                    {/* Stats principali */}
+                    <div className="grid grid-cols-3 gap-4 mb-4">
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-purple-600 mb-1">
+                          {workout.exercises.length}
+                        </div>
+                        <div className="text-xs text-gray-600">Esercizi</div>
                       </div>
-                      <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400 bg-white/50 dark:bg-gray-700/50 rounded-full px-3 py-1">
-                        <Clock className="w-4 h-4 text-blue-600" />
-                        <span className="font-medium">{formatDuration(workout.estimatedDuration)}</span>
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-blue-600 mb-1">
+                          {formatDuration(workout.estimatedDuration)}
+                        </div>
+                        <div className="text-xs text-gray-600">Durata</div>
                       </div>
-                      <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400 bg-white/50 dark:bg-gray-700/50 rounded-full px-3 py-1">
-                        <Calendar className="w-4 h-4 text-green-600" />
-                        <span className="font-medium">{new Date(workout.createdAt).toLocaleDateString('it')}</span>
+                      <div className="text-center">
+                        <div className={`text-lg font-bold mb-1 ${
+                          workout.exercises.length > 0
+                            ? workout.exercises.reduce((acc, curr) => {
+                                const difficultyScore = curr.exercise.difficulty === 'principiante' ? 1 :
+                                                    curr.exercise.difficulty === 'intermedio' ? 2 : 3;
+                                return acc + difficultyScore;
+                              }, 0) / workout.exercises.length >= 2.5 ? 'text-red-600' :
+                            workout.exercises.reduce((acc, curr) => {
+                                const difficultyScore = curr.exercise.difficulty === 'principiante' ? 1 :
+                                                    curr.exercise.difficulty === 'intermedio' ? 2 : 3;
+                                return acc + difficultyScore;
+                              }, 0) / workout.exercises.length >= 1.5 ? 'text-yellow-600' : 'text-green-600'
+                            : 'text-green-600'
+                        }`}>
+                          {workout.exercises.length > 0
+                            ? workout.exercises.reduce((acc, curr) => {
+                                const difficultyScore = curr.exercise.difficulty === 'principiante' ? 1 :
+                                                    curr.exercise.difficulty === 'intermedio' ? 2 : 3;
+                                return acc + difficultyScore;
+                              }, 0) / workout.exercises.length >= 2.5 ? '😤' :
+                            workout.exercises.reduce((acc, curr) => {
+                                const difficultyScore = curr.exercise.difficulty === 'principiante' ? 1 :
+                                                    curr.exercise.difficulty === 'intermedio' ? 2 : 3;
+                                return acc + difficultyScore;
+                              }, 0) / workout.exercises.length >= 1.5 ? '💪' : '🌱'
+                            : '🌱'}
+                        </div>
+                        <div className="text-xs text-gray-600">Livello</div>
                       </div>
                     </div>
 
                     {/* Tags */}
                     {workout.tags.length > 0 && (
                       <div className="flex flex-wrap gap-2 mb-4">
-                        {workout.tags.map((tag, index) => (
+                        {workout.tags.slice(0, 3).map((tag, index) => (
                           <span
                             key={index}
-                            className="px-3 py-1 bg-gradient-to-r from-purple-100 to-blue-100 text-purple-700 rounded-full text-xs font-medium transform hover:scale-105 transition-all duration-300"
+                            className="px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-medium"
                           >
                             #{tag}
                           </span>
                         ))}
+                        {workout.tags.length > 3 && (
+                          <span className="px-2 py-1 bg-gray-100 text-gray-600 rounded-full text-xs font-medium">
+                            +{workout.tags.length - 3}
+                          </span>
+                        )}
                       </div>
                     )}
 
-                    {/* Gruppi muscolari */}
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {Array.from(new Set(workout.exercises.map(e => e.exercise.muscleGroup))).map((muscle, index) => (
+                    {/* Gruppi muscolari principali */}
+                    <div className="flex flex-wrap gap-2 mb-6">
+                      {Array.from(new Set(workout.exercises.map(e => e.exercise.muscleGroup))).slice(0, 3).map((muscle, index) => (
                         <span
                           key={index}
-                          className="px-3 py-1 bg-gradient-to-r from-blue-100 to-cyan-100 text-blue-700 rounded-full text-xs font-medium transform hover:scale-105 transition-all duration-300"
+                          className="px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium"
                         >
-                          💪 {muscle}
+                          {muscle}
                         </span>
                       ))}
+                      {Array.from(new Set(workout.exercises.map(e => e.exercise.muscleGroup))).length > 3 && (
+                        <span className="px-2 py-1 bg-gray-100 text-gray-600 rounded-full text-xs font-medium">
+                          +{Array.from(new Set(workout.exercises.map(e => e.exercise.muscleGroup))).length - 3}
+                        </span>
+                      )}
                     </div>
 
-                    {/* Difficoltà media */}
+                    {/* Data creazione e pulsante azione */}
                     <div className="flex justify-between items-center">
-                      <div className="flex items-center space-x-2">
-                        <span className="text-sm text-gray-600">Difficoltà:</span>
-                        <span className={`px-2 py-1 rounded-full text-xs ${getDifficultyColor(
-                          workout.exercises.length > 0
-                            ? workout.exercises.reduce((acc, curr) => {
-                                const difficultyScore = curr.exercise.difficulty === 'principiante' ? 1 :
-                                                    curr.exercise.difficulty === 'intermedio' ? 2 : 3;
-                                return acc + difficultyScore;
-                              }, 0) / workout.exercises.length >= 2.5 ? 'avanzato' :
-                            workout.exercises.reduce((acc, curr) => {
-                                const difficultyScore = curr.exercise.difficulty === 'principiante' ? 1 :
-                                                    curr.exercise.difficulty === 'intermedio' ? 2 : 3;
-                                return acc + difficultyScore;
-                              }, 0) / workout.exercises.length >= 1.5 ? 'intermedio' : 'principiante'
-                            : 'principiante'
-                        )}`}>
-                          {workout.exercises.length > 0
-                            ? workout.exercises.reduce((acc, curr) => {
-                                const difficultyScore = curr.exercise.difficulty === 'principiante' ? 1 :
-                                                    curr.exercise.difficulty === 'intermedio' ? 2 : 3;
-                                return acc + difficultyScore;
-                              }, 0) / workout.exercises.length >= 2.5 ? 'Avanzata' :
-                            workout.exercises.reduce((acc, curr) => {
-                                const difficultyScore = curr.exercise.difficulty === 'principiante' ? 1 :
-                                                    curr.exercise.difficulty === 'intermedio' ? 2 : 3;
-                                return acc + difficultyScore;
-                              }, 0) / workout.exercises.length >= 1.5 ? 'Intermedia' : 'Principiante'
-                            : 'Principiante'}
-                        </span>
-                      </div>
-
+                      <span className="text-xs text-gray-500">
+                        Creato il {new Date(workout.createdAt).toLocaleDateString('it', { day: 'numeric', month: 'short', year: 'numeric' })}
+                      </span>
                       <button
                         onClick={() => startWorkout(workout)}
-                        className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 py-3 rounded-2xl hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center space-x-2 shadow-lg"
+                        className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-4 py-2 rounded-xl hover:shadow-lg transform hover:scale-105 transition-all duration-300 flex items-center space-x-2"
                       >
-                        <Play className="w-5 h-5" />
-                        <span className="font-medium">Inizia Allenamento</span>
+                        <Play className="w-4 h-4" />
+                        <span className="font-medium text-sm">Inizia</span>
                       </button>
                     </div>
                   </div>

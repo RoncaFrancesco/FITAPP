@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/assets/icons/icon-192x192.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#0ea5e9" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="FIT" />
+
+    <!-- Meta tag per PWA -->
+    <meta name="description" content="App PWA per allenamenti fitness con timer, schede personalizzate e AI coach" />
+    <meta name="keywords" content="fitness, allenamento, pwa, timer, schede, esercizi, workout" />
+    <meta name="author" content="Francesco Ronca" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="FIT - Allenamenti Fitness" />
+    <meta property="og:description" content="App PWA per allenamenti fitness con timer, schede personalizzate e AI coach" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/assets/icons/icon-512x512.png" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="FIT - Allenamenti Fitness" />
+    <meta name="twitter:description" content="App PWA per allenamenti fitness con timer, schede personalizzate e AI coach" />
+    <meta name="twitter:image" content="/assets/icons/icon-512x512.png" />
+
+    <!-- Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- iOS support -->
+    <link rel="apple-touch-icon" href="/assets/icons/icon-192x192.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/icons/icon-152x152.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/icon-180x180.png" />
+    <link rel="apple-touch-icon" sizes="167x167" href="/assets/icons/icon-167x167.png" />
+
+    <!-- Microsoft Tiles -->
+    <meta name="msapplication-TileColor" content="#0ea5e9" />
+    <meta name="msapplication-config" content="/browserconfig.xml" />
+
+    <!-- PWA install prompt -->
+    <script>
+      // Register service worker
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then(registration => {
+              console.log('SW registered: ', registration);
+            })
+            .catch(registrationError => {
+              console.log('SW registration failed: ', registrationError);
+            });
+        });
+      }
+
+      // PWA install prompt
+      let deferredPrompt;
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+
+        // Mostra pulsante di installazione personalizzato
+        const installButton = document.createElement('button');
+        installButton.textContent = 'Installa FIT';
+        installButton.className = 'fixed bottom-4 right-4 bg-blue-600 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+        installButton.onclick = () => {
+          deferredPrompt.prompt();
+          deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+              console.log('User accepted the install prompt');
+            } else {
+              console.log('User dismissed the install prompt');
+            }
+            deferredPrompt = null;
+            installButton.remove();
+          });
+        };
+        document.body.appendChild(installButton);
+      });
+
+      // Handle app installed
+      window.addEventListener('appinstalled', (evt) => {
+        console.log('FIT was installed.', evt);
+        const installButton = document.querySelector('button[onclick*="install"]');
+        if (installButton) {
+          installButton.remove();
+        }
+      });
+
+      // iOS standalone mode detection
+      if (window.navigator.standalone) {
+        document.documentElement.classList.add('ios-standalone');
+      }
+    </script>
+
+    <title>FIT - Allenamenti Fitness</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+
+    <!-- Fallback per offline -->
+    <noscript>
+      <div style="text-align: center; padding: 50px;">
+        <h1>FIT - Allenamenti Fitness</h1>
+        <p>JavaScript è richiesto per utilizzare questa applicazione.</p>
+        <p>Per favore, abilita JavaScript nel tuo browser e ricarica la pagina.</p>
+      </div>
+    </noscript>
+  </body>
+</html>

@@ -1,0 +1,143 @@
+Crea una Progressive Web App (PWA) per allenamenti fitness con le seguenti specifiche:
+REQUISITI TECNICI:
+
+PWA installabile e completamente funzionante offline
+Layout mobile-first ottimizzato per formato 9:16 (smartphone)
+Utilizza React con TypeScript
+Implementa Service Worker per funzionalità offline
+Database locale con IndexedDB per persistenza dati
+Design moderno, accattivante ma professionale
+Responsive design con focus mobile
+
+STRUTTURA APPLICAZIONE (4 SEZIONI PRINCIPALI):
+
+MENU ALLENAMENTO
+
+Visualizzazione e selezione schede allenamento (create manualmente o da AI)
+Esecuzione allenamenti con interfaccia step-by-step
+Sistema cronometri integrato:
+
+Timer singolo per riposo tra serie
+Timer multipli sequenziali per protocolli (Tabata, HIIT, Circuit)
+Preset timer: Tabata (20s/10s), HIIT personalizzabile, Circuit Training
+Timer completamente personalizzabili dall'utente
+
+
+Sistema note per ogni esercizio (peso utilizzato, ripetizioni, sensazioni)
+Tracciamento progresso durante l'allenamento
+Interfaccia intuitiva per navigare tra esercizi
+
+
+MENU CREAZIONE SCHEDA
+
+CRUD completo per schede allenamento (Create, Read, Update, Delete)
+Database ricco di esercizi precaricati:
+
+Esercizi di allenamento categorizzati per gruppi muscolari
+Esercizi di stretching
+Ogni esercizio con descrizione, istruzioni, gruppo muscolare
+
+
+Sistema di ricerca e filtri per esercizi
+Drag & drop per riordinare esercizi nella scheda
+Possibilità di aggiungere esercizi personalizzati
+Sistema Backup/Export:
+
+Export singola scheda in formato JSON
+Export tutte le schede (backup completo)
+Import schede da file
+Salvataggio file con nome scheda nel download del telefono
+Condivisione schede via WhatsApp, email, etc.
+
+
+
+
+MENU AI COACH
+
+Chat interface per interazione con AI
+Integrazione Google Gemini API (versione gratuita)
+Generazione automatica schede allenamento basata su:
+
+Obiettivi utente (forza, ipertrofia, definizione, resistenza)
+Livello esperienza
+Tempo disponibile
+Attrezzatura disponibile
+Preferenze personali
+
+
+Sistema modulare per facile migrazione a API paid future
+Fallback su template pre-definiti se API non disponibile
+Cache delle schede generate per ridurre chiamate API
+
+
+MENU IMPOSTAZIONI
+
+Configurazioni utente e preferenze app
+Gestione backup e restore
+Impostazioni cronometri default
+Tema scuro/chiaro
+Gestione dati e privacy
+Informazioni app e versione
+
+
+
+DATABASE ESERCIZI (PRECARICATO):
+Includi un database completo con almeno 150+ esercizi categorizzati:
+
+Petto: Panca piana, inclinata, declinata, croci, flessioni, dips
+Schiena: Trazioni, rematore, lat machine, stacchi, pulley
+Spalle: Alzate laterali, frontali, posteriori, military press, arnold press
+Braccia: Curl bicipiti, estensioni tricipiti, hammer curl, dips
+Gambe: Squat, leg press, affondi, stacchi rumeni, polpacci
+Core: Plank, crunch, russian twist, leg raise, mountain climber
+Stretching: Per ogni gruppo muscolare, dinamico e statico
+Cardio: Corsa, cyclette, rowing, burpees, jumping jack
+
+DESIGN E UX:
+
+Palette colori moderna (suggerisci combinazione professionale)
+Animazioni fluide e micro-interazioni
+Iconografie chiare e intuitive
+Typography leggibile e moderna
+Cards e componenti Material Design inspired
+Loading states e feedback visivi
+Gesture-friendly per mobile (swipe, tap, long press)
+
+FUNZIONALITÀ OFFLINE:
+
+Completa funzionalità senza connessione internet
+Sincronizzazione automatica quando ritorna connessione
+Cache intelligente per immagini e dati
+Service Worker per aggiornamenti app
+
+CRONOMETRI AVANZATI:
+
+Interfaccia cronometro grande e ben visibile
+Suoni di notifica e vibrazione
+Possibilità di mettere in pausa/riprendere
+Timer circolari con animazioni
+Multiple timer simultanei per circuit training
+Preset salvabili e personalizzabili
+
+API INTEGRATION:
+
+Implementa sistema modulare per Google Gemini API
+Gestione errori e fallback
+Rate limiting e ottimizzazione chiamate
+Sistema di retry automatico
+
+PERFORMANCE:
+
+Lazy loading dei componenti
+Ottimizzazione bundle size
+Caching strategico
+Smooth animations 60fps
+
+MANIFEST E PWA:
+
+Manifest.json completo per installazione
+Icons per diverse risoluzioni
+Splash screen personalizzato
+Gestione aggiornamenti app
+
+Implementa l'intera applicazione con codice pulito, ben strutturato e commentato. Includi tutti i file necessari per il deployment e testing.

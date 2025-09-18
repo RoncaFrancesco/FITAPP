@@ -104,5 +104,3 @@ coverage/
 # Claude Code
 .claude/
 
-# Icons generation
-icons/

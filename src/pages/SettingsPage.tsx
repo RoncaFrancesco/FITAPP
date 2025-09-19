@@ -172,6 +172,32 @@ export const SettingsPage: React.FC = () => {
     }));
   };
 
+  const handleThemeChange = async (newTheme: 'light' | 'dark' | 'system') => {
+    setTheme(newTheme);
+
+    // Aggiorna anche le preferenze nel database
+    if (preferences) {
+      try {
+        await db.open();
+        await db.preferences.update('default', {
+          ...preferences,
+          theme: newTheme
+        });
+
+        // Aggiorna lo stato locale delle preferenze
+        setPreferences(prev => ({
+          ...prev!,
+          theme: newTheme
+        }));
+
+        console.log('Theme updated in database:', newTheme);
+        toast.success('Tema aggiornato!');
+      } catch (error) {
+        console.error('Error updating theme in database:', error);
+      }
+    }
+  };
+
   const handleWorkoutImport = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
@@ -371,7 +397,7 @@ export const SettingsPage: React.FC = () => {
               </label>
               <div className="grid grid-cols-1 gap-3">
                 <button
-                  onClick={() => setTheme('light')}
+                  onClick={() => handleThemeChange('light')}
                   className={`flex items-center justify-between p-4 border-2 rounded-lg transition-all ${
                     theme === 'light'
                       ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
@@ -391,7 +417,7 @@ export const SettingsPage: React.FC = () => {
                 </button>
 
                 <button
-                  onClick={() => setTheme('dark')}
+                  onClick={() => handleThemeChange('dark')}
                   className={`flex items-center justify-between p-4 border-2 rounded-lg transition-all ${
                     theme === 'dark'
                       ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
@@ -411,7 +437,7 @@ export const SettingsPage: React.FC = () => {
                 </button>
 
                 <button
-                  onClick={() => setTheme('system')}
+                  onClick={() => handleThemeChange('system')}
                   className={`flex items-center justify-between p-4 border-2 rounded-lg transition-all ${
                     theme === 'system'
                       ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'

@@ -16,12 +16,17 @@ export const useTheme = () => {
 
   const loadPreferences = async () => {
     try {
+      // Ensure database is initialized
+      await db.open();
+      await db.initializeDefaultData();
+
       const preferences = await db.preferences.get('default');
       if (preferences) {
         setTheme(preferences.theme);
       }
     } catch (error) {
       console.error('Error loading theme preferences:', error);
+      // Keep default theme if database fails
     }
   };
 
@@ -50,12 +55,17 @@ export const useTheme = () => {
     try {
       setTheme(newTheme);
 
+      // Ensure database is initialized before saving
+      await db.open();
+      await db.initializeDefaultData();
+
       // Salva nel database
       await db.preferences.update('default', {
         theme: newTheme
       });
     } catch (error) {
       console.error('Error saving theme preference:', error);
+      // Don't show error to user, just failed silently
     }
   };
 

@@ -332,7 +332,104 @@ export const SettingsPage: React.FC = () => {
         </h1>
 
         <div className="space-y-6">
-  
+
+        {/* Tema */}
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+            <SettingsIcon className="w-5 h-5 mr-2" />
+            Aspetto
+          </h2>
+
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-3">
+                Tema dell'app
+              </label>
+              <div className="grid grid-cols-1 gap-3">
+                <button
+                  onClick={() => setTheme('light')}
+                  className={`flex items-center justify-between p-4 border-2 rounded-lg transition-all ${
+                    theme === 'light'
+                      ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
+                      : 'border-gray-200 hover:border-gray-300'
+                  }`}
+                >
+                  <div className="flex items-center space-x-3">
+                    <Sun className="w-5 h-5 text-yellow-500" />
+                    <div className="text-left">
+                      <div className="font-medium text-gray-900">Chiaro</div>
+                      <div className="text-sm text-gray-500">Tema chiaro sempre attivo</div>
+                    </div>
+                  </div>
+                  {theme === 'light' && (
+                    <div className="w-4 h-4 bg-blue-500 rounded-full"></div>
+                  )}
+                </button>
+
+                <button
+                  onClick={() => setTheme('dark')}
+                  className={`flex items-center justify-between p-4 border-2 rounded-lg transition-all ${
+                    theme === 'dark'
+                      ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
+                      : 'border-gray-200 hover:border-gray-300'
+                  }`}
+                >
+                  <div className="flex items-center space-x-3">
+                    <Moon className="w-5 h-5 text-purple-500" />
+                    <div className="text-left">
+                      <div className="font-medium text-gray-900">Scuro</div>
+                      <div className="text-sm text-gray-500">Tema scuro sempre attivo</div>
+                    </div>
+                  </div>
+                  {theme === 'dark' && (
+                    <div className="w-4 h-4 bg-blue-500 rounded-full"></div>
+                  )}
+                </button>
+
+                <button
+                  onClick={() => setTheme('system')}
+                  className={`flex items-center justify-between p-4 border-2 rounded-lg transition-all ${
+                    theme === 'system'
+                      ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
+                      : 'border-gray-200 hover:border-gray-300'
+                  }`}
+                >
+                  <div className="flex items-center space-x-3">
+                    <Monitor className="w-5 h-5 text-gray-500" />
+                    <div className="text-left">
+                      <div className="font-medium text-gray-900">Sistema</div>
+                      <div className="text-sm text-gray-500">Segui le impostazioni del dispositivo</div>
+                    </div>
+                  </div>
+                  {theme === 'system' && (
+                    <div className="w-4 h-4 bg-blue-500 rounded-full"></div>
+                  )}
+                </button>
+              </div>
+            </div>
+
+            <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
+              <div className="flex items-center space-x-3">
+                <div className="flex-shrink-0">
+                  {isDark ? (
+                    <Moon className="w-5 h-5 text-purple-500" />
+                  ) : (
+                    <Sun className="w-5 h-5 text-yellow-500" />
+                  )}
+                </div>
+                <div>
+                  <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                    Tema attuale: {theme === 'system' ? `Sistema (${isDark ? 'Scuro' : 'Chiaro'})` : theme === 'dark' ? 'Scuro' : 'Chiaro'}
+                  </div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400">
+                    Le modifiche vengono applicate immediatamente
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Timer */}
         <div className="bg-white rounded-lg shadow-md p-6">
           <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">

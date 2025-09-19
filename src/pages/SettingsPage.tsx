@@ -500,6 +500,8 @@ export const SettingsPage: React.FC = () => {
                 </label>
                 <input
                   type="number"
+                  id="defaultRestTime"
+                  name="defaultRestTime"
                   value={preferences.defaultRestTime}
                   onChange={(e) => setPreferences(prev => ({
                     ...prev!,
@@ -517,6 +519,8 @@ export const SettingsPage: React.FC = () => {
                 </label>
                 <input
                   type="number"
+                  id="preparationTime"
+                  name="preparationTime"
                   value={preferences.defaultTimerSettings.preparationTime}
                   onChange={(e) => updateTimerSettings({ preparationTime: parseInt(e.target.value) || 5 })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -532,6 +536,8 @@ export const SettingsPage: React.FC = () => {
                 <label className="flex items-center space-x-3">
                   <input
                     type="checkbox"
+                    id="soundEnabled"
+                    name="soundEnabled"
                     checked={preferences.defaultTimerSettings.soundEnabled}
                     onChange={(e) => updateTimerSettings({ soundEnabled: e.target.checked })}
                     className="rounded text-blue-600 focus:ring-blue-500"
@@ -542,6 +548,8 @@ export const SettingsPage: React.FC = () => {
                 <label className="flex items-center space-x-3">
                   <input
                     type="checkbox"
+                    id="vibrationEnabled"
+                    name="vibrationEnabled"
                     checked={preferences.defaultTimerSettings.vibrationEnabled}
                     onChange={(e) => updateTimerSettings({ vibrationEnabled: e.target.checked })}
                     className="rounded text-blue-600 focus:ring-blue-500"
@@ -566,6 +574,8 @@ export const SettingsPage: React.FC = () => {
                 Lingua
               </label>
               <select
+                id="language"
+                name="language"
                 value={preferences.language}
                 onChange={(e) => setPreferences(prev => ({
                   ...prev!,
@@ -583,6 +593,8 @@ export const SettingsPage: React.FC = () => {
                 Unità di misura
               </label>
               <select
+                id="units"
+                name="units"
                 value={preferences.units}
                 onChange={(e) => setPreferences(prev => ({
                   ...prev!,
@@ -608,6 +620,8 @@ export const SettingsPage: React.FC = () => {
             <label className="flex items-center space-x-3">
               <input
                 type="checkbox"
+                id="workoutReminders"
+                name="workoutReminders"
                 checked={preferences.notifications.workoutReminders}
                 onChange={(e) => setPreferences(prev => ({
                   ...prev!,
@@ -624,6 +638,8 @@ export const SettingsPage: React.FC = () => {
             <label className="flex items-center space-x-3">
               <input
                 type="checkbox"
+                id="achievementAlerts"
+                name="achievementAlerts"
                 checked={preferences.notifications.achievementAlerts}
                 onChange={(e) => setPreferences(prev => ({
                   ...prev!,
@@ -653,6 +669,8 @@ export const SettingsPage: React.FC = () => {
               </label>
               <input
                 type="password"
+                id="apiKey"
+                name="apiKey"
                 value={apiKey}
                 onChange={(e) => setApiKey(e.target.value)}
                 placeholder="Inserisci la tua API key per funzionalità AI avanzate"
@@ -666,6 +684,8 @@ export const SettingsPage: React.FC = () => {
             <label className="flex items-center space-x-3">
               <input
                 type="checkbox"
+                id="useGemini"
+                name="useGemini"
                 checked={preferences.ai.useGemini}
                 onChange={(e) => setPreferences(prev => ({
                   ...prev!,

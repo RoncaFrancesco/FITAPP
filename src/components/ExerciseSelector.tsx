@@ -350,6 +350,8 @@ export const ExerciseSelector: React.FC<ExerciseSelectorProps> = ({
                 Descrizione
               </label>
               <textarea
+                id="exerciseDescription"
+                name="exerciseDescription"
                 value={customExercise.description}
                 onChange={(e) => setCustomExercise(prev => ({ ...prev, description: e.target.value }))}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -397,6 +399,8 @@ export const ExerciseSelector: React.FC<ExerciseSelectorProps> = ({
                   Gruppo Muscolare
                 </label>
                 <select
+                  id="muscleGroup"
+                  name="muscleGroup"
                   value={customExercise.muscleGroup}
                   onChange={(e) => setCustomExercise(prev => ({ ...prev, muscleGroup: e.target.value as MuscleGroup }))}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -412,6 +416,8 @@ export const ExerciseSelector: React.FC<ExerciseSelectorProps> = ({
                   Difficoltà
                 </label>
                 <select
+                  id="difficulty"
+                  name="difficulty"
                   value={customExercise.difficulty}
                   onChange={(e) => setCustomExercise(prev => ({ ...prev, difficulty: e.target.value as Difficulty }))}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -427,6 +433,8 @@ export const ExerciseSelector: React.FC<ExerciseSelectorProps> = ({
                   Categoria
                 </label>
                 <select
+                  id="category"
+                  name="category"
                   value={customExercise.category}
                   onChange={(e) => setCustomExercise(prev => ({ ...prev, category: e.target.value as ExerciseCategory }))}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"

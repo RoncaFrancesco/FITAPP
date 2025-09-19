@@ -133,11 +133,12 @@ export const BackupManager: React.FC<BackupManagerProps> = ({ onImportSuccess })
                 <span className="sr-only">Importa backup</span>
                 <input
                   type="file"
+                  id="backupImport"
+                  name="backupImport"
                   accept=".json"
                   onChange={handleFileImport}
                   disabled={loading}
                   className="hidden"
-                  id="backup-import"
                 />
                 <label
                   htmlFor="backup-import"

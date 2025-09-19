@@ -369,11 +369,13 @@ export const WorkoutSession: React.FC<WorkoutSessionProps> = ({
 
         {/* Note */}
         <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 flex items-center">
+          <label htmlFor="sessionNotes" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 flex items-center">
             <span className="w-2 h-6 bg-gradient-to-r from-orange-600 to-yellow-600 rounded-full mr-3"></span>
             Note:
           </label>
           <textarea
+            id="sessionNotes"
+            name="sessionNotes"
             value={currentProgress.notes}
             onChange={(e) => {
               setSession((prev: WorkoutSessionType) => {

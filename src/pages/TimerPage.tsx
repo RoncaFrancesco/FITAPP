@@ -72,6 +72,8 @@ export const TimerPage: React.FC = () => {
                 </label>
                 <input
                   type="text"
+                  id="timerName"
+                  name="timerName"
                   value={timerName}
                   onChange={(e) => setTimerName(e.target.value)}
                   placeholder="Inserisci un nome per il tuo timer"
@@ -87,6 +89,8 @@ export const TimerPage: React.FC = () => {
                   </label>
                   <input
                     type="number"
+                    id="workTime"
+                    name="workTime"
                     value={timerSettings.workTime}
                     onChange={(e) => setTimerSettings(prev => ({ ...prev, workTime: parseInt(e.target.value) || 30 }))}
                     className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
@@ -101,6 +105,8 @@ export const TimerPage: React.FC = () => {
                   </label>
                   <input
                     type="number"
+                    id="restTime"
+                    name="restTime"
                     value={timerSettings.restTime}
                     onChange={(e) => setTimerSettings(prev => ({ ...prev, restTime: parseInt(e.target.value) || 15 }))}
                     className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
@@ -115,6 +121,8 @@ export const TimerPage: React.FC = () => {
                   </label>
                   <input
                     type="number"
+                    id="rounds"
+                    name="rounds"
                     value={timerSettings.rounds}
                     onChange={(e) => setTimerSettings(prev => ({ ...prev, rounds: parseInt(e.target.value) || 1 }))}
                     className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
@@ -129,6 +137,8 @@ export const TimerPage: React.FC = () => {
                   </label>
                   <input
                     type="number"
+                    id="preparationTime"
+                    name="preparationTime"
                     value={timerSettings.preparationTime}
                     onChange={(e) => setTimerSettings(prev => ({ ...prev, preparationTime: parseInt(e.target.value) || 5 }))}
                     className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
@@ -143,6 +153,8 @@ export const TimerPage: React.FC = () => {
                 <label className="flex items-center space-x-3">
                   <input
                     type="checkbox"
+                    id="soundEnabled"
+                    name="soundEnabled"
                     checked={timerSettings.soundEnabled}
                     onChange={(e) => setTimerSettings(prev => ({ ...prev, soundEnabled: e.target.checked }))}
                     className="rounded text-purple-600 focus:ring-purple-500"
@@ -153,6 +165,8 @@ export const TimerPage: React.FC = () => {
                 <label className="flex items-center space-x-3">
                   <input
                     type="checkbox"
+                    id="vibrationEnabled"
+                    name="vibrationEnabled"
                     checked={timerSettings.vibrationEnabled}
                     onChange={(e) => setTimerSettings(prev => ({ ...prev, vibrationEnabled: e.target.checked }))}
                     className="rounded text-purple-600 focus:ring-purple-500"

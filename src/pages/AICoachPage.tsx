@@ -617,6 +617,8 @@ export const AICoachPage: React.FC = () => {
             <div className="flex items-end space-x-3">
               <div className="flex-1 relative">
                 <textarea
+                  id="aiCoachMessage"
+                  name="aiCoachMessage"
                   value={inputMessage}
                   onChange={(e) => setInputMessage(e.target.value)}
                   onKeyPress={handleKeyPress}

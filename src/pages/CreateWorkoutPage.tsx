@@ -363,6 +363,8 @@ export const CreateWorkoutPage: React.FC = () => {
                 Descrizione
               </label>
               <textarea
+                id="workoutDescription"
+                name="workoutDescription"
                 value={workout.description || ''}
                 onChange={(e) => setWorkout(prev => ({ ...prev, description: e.target.value }))}
                 className="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white transition-all duration-300"
@@ -554,6 +556,8 @@ export const CreateWorkoutPage: React.FC = () => {
                       Note
                     </label>
                     <textarea
+                      id={`exerciseNotes-${exerciseIndex}`}
+                      name={`exerciseNotes-${exerciseIndex}`}
                       value={workoutExercise.notes || ''}
                       onChange={(e) => updateExerciseNotes(exerciseIndex, e.target.value)}
                       className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white transition-all duration-300"

@@ -1364,6 +1364,218 @@ export class FitnessDatabase extends Dexie {
         difficulty: 'principiante' as any,
         category: 'flessibilità' as any,
         isCustom: false
+      },
+      // Esercizi per zona lombare e schiacciamento vertebrale
+      {
+        name: 'Cat-Camel',
+        description: 'Mobilità spinale delicata per chi ha schiacciamento vertebrale',
+        instructions: ['Posizione quadrupedia', 'Curva la schiena verso l\'alto (gatto)', 'Scendi il ventre a terra (camello)', 'Movimento lento e controllato', '10-15 ripetizioni'],
+        muscleGroup: 'lombare' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'principiante' as any,
+        category: 'riabilitazione' as any,
+        isCustom: false
+      },
+      {
+        name: 'Pelvic Tilt',
+        description: 'Rafforzamento muscoli lombari e addome',
+        instructions: ['Sdraiato sulla schiena con ginocchia piegate', 'Contrai glutei e addome', 'Solleva leggermente il bacino', 'Mantieni 5 secondi', 'Rilascia lentamente'],
+        muscleGroup: 'lombare' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'principiante' as any,
+        category: 'riabilitazione' as any,
+        isCustom: false
+      },
+      {
+        name: 'Bird Dog avanzato',
+        description: 'Stabilizzazione core e lombare',
+        instructions: ['Posizione quadrupedia', 'Estendi braccio e gamba opposti', 'Mantieni la schiena neutra', 'Tieni 5 secondi', 'Ritorna e cambia lato'],
+        muscleGroup: 'lombare' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'intermedio' as any,
+        category: 'stabilizzazione' as any,
+        isCustom: false
+      },
+      {
+        name: 'Glute Bridge',
+        description: 'Rafforzamento glutei e lombari',
+        instructions: ['Sdraiato sulla schiena con ginocchia piegate', 'Piedi ben saldi a terra', 'Solleva i fianchi contraendo i glutei', 'Mantieni 3-5 secondi', 'Scendi controllando'],
+        muscleGroup: 'lombare' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'principiante' as any,
+        category: 'stabilizzazione' as any,
+        isCustom: false
+      },
+      {
+        name: 'Superman',
+        description: 'Rafforzamento estensori schiena',
+        instructions: ['Sdraiato prono', 'Braccia e gambe estese', 'Solleva braccia e gambe contemporaneamente', 'Mantieni 3-5 secondi', 'Rilascia lentamente'],
+        muscleGroup: 'lombare' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'principiante' as any,
+        category: 'stabilizzazione' as any,
+        isCustom: false
+      },
+      {
+        name: 'Plank con sollevamento gambe',
+        description: 'Stabilizzazione lombare avanzata',
+        instructions: ['Posizione plank sugli avambracci', 'Solleva alternativamente le gambe', 'Mantieni i fianchi stabili', '10 ripetizioni per gamba'],
+        muscleGroup: 'lombare' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'avanzato' as any,
+        category: 'stabilizzazione' as any,
+        isCustom: false
+      },
+      {
+        name: 'Dead Bug modificato',
+        description: 'Core sicuro per chi ha problemi lombari',
+        instructions: ['Sdraiato supino con ginocchia a 90 gradi', 'Braccia tese verso il soffitto', 'Estendi alternativamente braccia e gambe', 'Mantieni la schiena a terra', 'Movimento lento'],
+        muscleGroup: 'lombare' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'intermedio' as any,
+        category: 'stabilizzazione' as any,
+        isCustom: false
+      },
+      {
+        name: 'Cobra stretch',
+        description: 'Allungamento delicato per schiacciamento vertebrale',
+        instructions: ['Sdraiato prono', 'Mani sotto le spalle', 'Solleva lentamente il busto', 'Mantieni i fianchi a terra', 'Tieni 10-15 secondi'],
+        muscleGroup: 'lombare' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'principiante' as any,
+        category: 'flessibilità' as any,
+        isCustom: false
+      },
+      {
+        name: 'Wall squat',
+        description: 'Squat sicuro per chi ha problemi lombari',
+        instructions: ['Appoggiato a un muro', 'Scendi fino a 90 gradi', 'Mantieni la schiena contro il muro', 'Tieni 20-30 secondi', 'Ritorna su'],
+        muscleGroup: 'lombare' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'principiante' as any,
+        category: 'stabilizzazione' as any,
+        isCustom: false
+      },
+      {
+        name: 'Bridge unilaterale',
+        description: 'Stabilizzazione lombare monolaterale',
+        instructions: ['Sdraiato sulla schiena', 'Una gamba tesa, l\'altra piegata', 'Solleva i fianchi con la gamba piegata', 'Mantieni 5 secondi', 'Cambia gamba'],
+        muscleGroup: 'lombare' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'intermedio' as any,
+        category: 'stabilizzazione' as any,
+        isCustom: false
+      },
+      // Esercizi per perineo e pavimento pelvico
+      {
+        name: 'Kegel esercizi',
+        description: 'Rafforzamento pavimento pelvico',
+        instructions: ['Siediti o sdraiati comodamente', 'Contrai i muscoli del pavimento pelvico', 'Mantieni la contrazione 3-5 secondi', 'Rilascia lentamente', '10-15 ripetizioni'],
+        muscleGroup: 'perineo' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'principiante' as any,
+        category: 'riabilitazione' as any,
+        isCustom: false
+      },
+      {
+        name: 'Bridge perineo',
+        description: 'Rafforzamento pavimento pelvico e glutei',
+        instructions: ['Sdraiato sulla schiena con ginocchia piegate', 'Contrai pavimento pelvico mentre sollevi i fianchi', 'Mantieni 5 secondi', 'Rilascia controllando'],
+        muscleGroup: 'perineo' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'principiante' as any,
+        category: 'stabilizzazione' as any,
+        isCustom: false
+      },
+      {
+        name: 'Squat profondo controllato',
+        description: 'Mobilità pelvica e rafforzamento',
+        instructions: ['In piedi con piedi leggermente divaricati', 'Scendi lentamente in squat profondo', 'Mantieni la posizione 10 secondi', 'Ritorna su controllando'],
+        muscleGroup: 'perineo' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'intermedio' as any,
+        category: 'mobilità' as any,
+        isCustom: false
+      },
+      {
+        name: 'Butterfly stretch',
+        description: 'Allungamento pavimento pelvico e anche',
+        instructions: ['Seduto a terra', 'Piante dei piedi unite', 'Spingi le ginocchia verso il basso', 'Mantieni 30 secondi', 'Respira profondamente'],
+        muscleGroup: 'perineo' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'principiante' as any,
+        category: 'flessibilità' as any,
+        isCustom: false
+      },
+      {
+        name: 'Pelvic clock',
+        description: 'Mobilità pelvica per chi ha problemi lombari',
+        instructions: ['Sdraiato sulla schiena con ginocchia piegate', 'Imagina un orologio sul pavimento pelvico', 'Muovi il bacino in senso orario', 'Poi in senso antiorario', 'Movimento lento e controllato'],
+        muscleGroup: 'perineo' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'principiante' as any,
+        category: 'mobilità' as any,
+        isCustom: false
+      },
+      {
+        name: 'Side-lying clamshells',
+        description: 'Rafforzamento muscoli pelvici laterali',
+        instructions: ['Sdraiato su un fianco con ginocchia piegate', 'Mantieni i piedi uniti', 'Apri la gamba superiore mantenendo i piedi uniti', 'Mantieni 3 secondi', 'Rilascia'],
+        muscleGroup: 'perineo' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'principiante' as any,
+        category: 'stabilizzazione' as any,
+        isCustom: false
+      },
+      {
+        name: 'Standing pelvic tilt',
+        description: 'Allineamento pelvico in piedi',
+        instructions: ['In piedi con schiena contro il muro', 'Contrai glutei e addome', 'Spingi il bacino leggermente in avanti', 'Mantieni 5 secondi', 'Rilascia'],
+        muscleGroup: 'perineo' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'principiante' as any,
+        category: 'postura' as any,
+        isCustom: false
+      },
+      {
+        name: 'Pelvic floor activation in quadrupedia',
+        description: 'Attivazione pavimento pelvico in quadrupedia',
+        instructions: ['Posizione quadrupedia', 'Mantieni la schiena neutra', 'Contrai delicatamente il pavimento pelvico', 'Mantieni 3 secondi', 'Rilascia'],
+        muscleGroup: 'perineo' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'principiante' as any,
+        category: 'attivazione' as any,
+        isCustom: false
+      },
+      {
+        name: 'Hip hinge con attivazione perineo',
+        description: 'Pattern movimento sicuro per la schiena',
+        instructions: ['In piedi con ginocchia leggermente piegate', 'Piega in avanti dalle anche mantenendo schiena dritta', 'Attiva pavimento pelvico durante il movimento', 'Ritorna su'],
+        muscleGroup: 'perineo' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'intermedio' as any,
+        category: 'funzionale' as any,
+        isCustom: false
+      },
+      {
+        name: 'Respirazione diaframmatica per perineo',
+        description: 'Coordinazione respirazione e pavimento pelvico',
+        instructions: ['Sdraiato sulla schiena', 'Mano sull\'addome', 'Inspira espandendo l\'addome', 'Espira contraindo il pavimento pelvico', '10 respirazioni lente'],
+        muscleGroup: 'perineo' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'principiante' as any,
+        category: 'respirazione' as any,
+        isCustom: false
+      },
+      {
+        name: 'Adductor squeeze con attivazione perineo',
+        description: 'Rafforzamento adduttori e pavimento pelvico',
+        instructions: ['Sdraiato sulla schiena con ginocchia piegate', 'Posiziona un cuscino tra le ginocchia', 'Spremi il cuscino contraindo gli adduttori', 'Attiva contemporaneamente il pavimento pelvico', 'Tieni 5 secondi'],
+        muscleGroup: 'perineo' as any,
+        equipment: ['a corpo libero'] as any,
+        difficulty: 'principiante' as any,
+        category: 'stabilizzazione' as any,
+        isCustom: false
       }
     ];
 

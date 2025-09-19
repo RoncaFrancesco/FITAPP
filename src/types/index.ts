@@ -73,6 +73,7 @@ export interface TimerSettings {
 }
 
 export interface UserPreferences {
+  id: string;
   theme: 'light' | 'dark' | 'system';
   defaultRestTime: number;
   defaultTimerSettings: TimerSettings;

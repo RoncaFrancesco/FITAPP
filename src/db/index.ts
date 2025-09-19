@@ -27,6 +27,7 @@ export class FitnessDatabase extends Dexie {
     const preferencesCount = await this.preferences.count();
     if (preferencesCount === 0) {
       await this.preferences.add({
+        id: 'default',
         theme: 'system',
         defaultRestTime: 60,
         defaultTimerSettings: {

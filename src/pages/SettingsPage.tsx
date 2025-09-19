@@ -61,6 +61,7 @@ export const SettingsPage: React.FC = () => {
         console.log('No preferences found, using defaults');
         // Create default preferences if none exist
         const defaultPrefs: UserPreferences = {
+          id: 'default',
           theme: 'system',
           defaultRestTime: 60,
           defaultTimerSettings: {
@@ -98,6 +99,7 @@ export const SettingsPage: React.FC = () => {
       console.error('Critical error in loadPreferences:', error);
       // Emergency fallback
       const emergencyPrefs: UserPreferences = {
+        id: 'default',
         theme: 'system',
         defaultRestTime: 60,
         defaultTimerSettings: {

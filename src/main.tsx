@@ -52,8 +52,8 @@ const initializeTheme = () => {
 
 initializeTheme();
 
-// Register Service Worker
-registerServiceWorker();
+// Temporarily disable Service Worker to force fresh asset loading
+// registerServiceWorker();
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

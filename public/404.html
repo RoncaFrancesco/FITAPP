@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>FIT APP - Redirect</title>
+    <script type="text/javascript">
+      // Funzione di redirect per GitHub Pages SPA routing
+      (function() {
+        // Ottieni il percorso corrente
+        var path = window.location.pathname;
+
+        // Reindirizza alla pagina principale con il percorso come parametro
+        if (path !== '/' && path !== '/index.html') {
+          window.location.replace('/?p=' + encodeURIComponent(path.substring(1)));
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <h1>Reindirizzamento...</h1>
+    <p>Sei stato reindirizzato alla pagina principale.</p>
+  </body>
+</html>

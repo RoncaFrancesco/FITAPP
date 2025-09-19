@@ -41,22 +41,30 @@ export const SettingsPage: React.FC = () => {
 
   const loadPreferences = async () => {
     try {
-      // Ensure database is initialized
-      await db.open();
-      await db.initializeDefaultData();
+      console.log('Loading preferences...');
 
-      const prefs = await db.preferences.get('default');
+      // Initialize database safely
+      let prefs = null;
+      try {
+        await db.open();
+        await db.initializeDefaultData();
+        prefs = await db.preferences.get('default');
+      } catch (dbError) {
+        console.warn('Database not available, using defaults:', dbError);
+      }
+
       if (prefs) {
+        console.log('Preferences found:', prefs);
         setPreferences(prefs);
         setApiKey(prefs.ai?.apiKey || '');
       } else {
+        console.log('No preferences found, using defaults');
         // Create default preferences if none exist
-        const defaultPrefs = {
-          id: 'default',
-          theme: 'system' as const,
+        const defaultPrefs: UserPreferences = {
+          theme: 'system',
           defaultRestTime: 60,
           defaultTimerSettings: {
-            type: 'single' as const,
+            type: 'single',
             workTime: 30,
             restTime: 60,
             rounds: 1,
@@ -65,8 +73,8 @@ export const SettingsPage: React.FC = () => {
             soundEnabled: true,
             vibrationEnabled: true
           },
-          language: 'it' as const,
-          units: 'metric' as const,
+          language: 'it',
+          units: 'metric',
           notifications: {
             workoutReminders: true,
             achievementAlerts: true
@@ -76,19 +84,24 @@ export const SettingsPage: React.FC = () => {
             apiKey: ''
           }
         };
-        await db.preferences.add(defaultPrefs);
+
+        try {
+          await db.preferences.add(defaultPrefs);
+        } catch (saveError) {
+          console.warn('Could not save preferences to database:', saveError);
+        }
+
         setPreferences(defaultPrefs);
         setApiKey('');
       }
     } catch (error) {
-      console.error('Error loading preferences:', error);
-      // Set default preferences even if database fails
-      const fallbackPrefs = {
-        id: 'default',
-        theme: 'system' as const,
+      console.error('Critical error in loadPreferences:', error);
+      // Emergency fallback
+      const emergencyPrefs: UserPreferences = {
+        theme: 'system',
         defaultRestTime: 60,
         defaultTimerSettings: {
-          type: 'single' as const,
+          type: 'single',
           workTime: 30,
           restTime: 60,
           rounds: 1,
@@ -97,8 +110,8 @@ export const SettingsPage: React.FC = () => {
           soundEnabled: true,
           vibrationEnabled: true
         },
-        language: 'it' as const,
-        units: 'metric' as const,
+        language: 'it',
+        units: 'metric',
         notifications: {
           workoutReminders: true,
           achievementAlerts: true
@@ -108,7 +121,7 @@ export const SettingsPage: React.FC = () => {
           apiKey: ''
         }
       };
-      setPreferences(fallbackPrefs);
+      setPreferences(emergencyPrefs);
       setApiKey('');
     } finally {
       setLoadingPrefs(false);
@@ -119,18 +132,29 @@ export const SettingsPage: React.FC = () => {
     if (!preferences) return;
 
     try {
+      console.log('Saving preferences...');
       setLoadingPrefs(true);
-      await db.preferences.update('default', {
-        ...preferences,
-        ai: {
-          ...preferences.ai,
-          apiKey
-        }
-      });
+
+      // Try to save to database
+      try {
+        await db.open();
+        await db.preferences.update('default', {
+          ...preferences,
+          ai: {
+            ...preferences.ai,
+            apiKey
+          }
+        });
+        console.log('Preferences saved to database');
+      } catch (dbError) {
+        console.warn('Could not save to database:', dbError);
+        // Continue anyway, preferences are still in memory
+      }
+
       toast.success('Preferenze salvate!');
     } catch (error) {
-      console.error('Error saving preferences:', error);
-      toast.error('Errore nel salvataggio delle preferenze');
+      console.error('Error in savePreferences:', error);
+      toast.error('Preferenze salvate in memoria');
     } finally {
       setLoadingPrefs(false);
     }

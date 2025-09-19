@@ -29,13 +29,24 @@ const initializeTheme = () => {
   const savedTheme = localStorage.getItem('theme') || 'system';
   document.documentElement.setAttribute('data-theme', savedTheme);
 
+  // Forza tema chiaro come default per Android e iOS PWA
+  // ma rispetta le preferenze salvate
+  let shouldApplyDark = false;
+
   if (savedTheme === 'dark') {
-    document.documentElement.classList.add('dark');
+    shouldApplyDark = true;
   } else if (savedTheme === 'system') {
     const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    if (isDark) {
-      document.documentElement.classList.add('dark');
-    }
+    shouldApplyDark = isDark;
+  }
+
+  // Applica il tema
+  if (shouldApplyDark) {
+    document.documentElement.classList.add('dark');
+    document.documentElement.style.colorScheme = 'dark';
+  } else {
+    document.documentElement.classList.remove('dark');
+    document.documentElement.style.colorScheme = 'light';
   }
 };
 

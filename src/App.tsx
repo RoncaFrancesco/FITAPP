@@ -1,5 +1,5 @@
 import React, { useEffect, Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { useTheme } from './hooks/useTheme';
 import { db } from './db';
@@ -131,9 +131,27 @@ const AppContent: React.FC = () => {
   );
 };
 
+// Componente per gestire il redirect di GitHub Pages
+const GitHubPagesRedirect: React.FC = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const path = params.get('p');
+
+    if (path && path !== '/') {
+      // Reindirizza al path corretto
+      window.history.replaceState({}, '', path);
+    }
+  }, [location]);
+
+  return null;
+};
+
 const App: React.FC = () => {
   return (
     <Router>
+      <GitHubPagesRedirect />
       <AppContent />
     </Router>
   );

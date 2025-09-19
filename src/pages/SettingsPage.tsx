@@ -192,6 +192,9 @@ export const SettingsPage: React.FC = () => {
           theme: newTheme
         }));
 
+        // Notifica il hook useTheme del cambiamento
+        window.dispatchEvent(new Event('theme-changed'));
+
         console.log('Theme updated in database:', newTheme);
         toast.success('Tema aggiornato!');
       } catch (error) {

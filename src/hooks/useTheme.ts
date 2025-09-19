@@ -8,6 +8,18 @@ export const useTheme = () => {
 
   useEffect(() => {
     loadPreferences();
+
+    // Ascolta i cambiamenti delle preferenze nel database
+    const handleStorageChange = () => {
+      loadPreferences();
+    };
+
+    // Usa un evento personalizzato per notificare i cambiamenti
+    window.addEventListener('theme-changed', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('theme-changed', handleStorageChange);
+    };
   }, []);
 
   useEffect(() => {

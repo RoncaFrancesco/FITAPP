@@ -26,21 +26,17 @@ const registerServiceWorker = () => {
         });
       }
 
-      navigator.serviceWorker.register('/sw.js?v=' + Date.now())
+      navigator.serviceWorker.register('/sw.js')
         .then((registration) => {
           console.log('SW registered: ', registration);
 
-          // Forza l'aggiornamento del service worker
-          registration.update();
-
-          // Ascolta gli aggiornamenti
+          // Ascolta gli aggiornamenti (senza ricaricamento automatico)
           registration.addEventListener('updatefound', () => {
             const installingWorker = registration.installing;
             if (installingWorker) {
               installingWorker.addEventListener('statechange', () => {
                 if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                  // Nuovo service worker installato, ricarica la pagina
-                  window.location.reload();
+                  console.log('Nuovo service worker disponibile, ricarica la pagina per applicare gli aggiornamenti');
                 }
               });
             }

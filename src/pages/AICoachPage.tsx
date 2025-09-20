@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAI } from '../hooks/useAI';
+import { useTheme } from '../hooks/useTheme';
 import { Navigation } from '../components/Navigation';
 import { AiWorkoutRequest, Workout, MuscleGroup, Equipment, ExperienceLevel, Goal } from '../types';
 import { Send, Bot, User, Save, Clock, Target, Dumbbell, Sparkles, ArrowLeft, Brain, Zap, TrendingUp, Heart, Activity } from 'lucide-react';
@@ -8,6 +9,7 @@ import toast from 'react-hot-toast';
 
 export const AICoachPage: React.FC = () => {
   const navigate = useNavigate();
+  const { theme, isDark } = useTheme();
   const { messages, loading, generateWorkout, sendMessage, saveGeneratedWorkout, clearMessages, setMessages } = useAI();
   const [showWorkoutForm, setShowWorkoutForm] = useState(false);
   const [workoutRequest, setWorkoutRequest] = useState<AiWorkoutRequest>({

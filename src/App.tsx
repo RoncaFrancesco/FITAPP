@@ -100,7 +100,7 @@ const AppContent: React.FC = () => {
             <Route path="/ai-coach" element={<AICoachPage />} />
             <Route path="/settings" element={<SettingsPage />} />
             <Route path="/timer" element={<TimerPage />} />
-          </Routes>
+            </Routes>
         </Suspense>
 
         <Toaster

@@ -1,9 +1,10 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { AiWorkoutRequest, Workout, Exercise, MuscleGroup, Equipment, ExperienceLevel, Goal, ExerciseCategory, Difficulty, goalToCategoryMap } from '../types';
 import { db } from '../db';
 import toast from 'react-hot-toast';
+import { useContextualChat } from './useContextualChat';
 
-interface AIMessage {
+export interface AIMessage {
   id: string;
   content: string;
   type: 'user' | 'ai';
@@ -11,13 +12,35 @@ interface AIMessage {
   workout?: Workout;
 }
 
-export const useAI = () => {
+export const useAI = (providedApiKey?: string) => {
   const [messages, setMessages] = useState<AIMessage[]>([]);
   const [loading, setLoading] = useState(false);
-  const [apiKey, setApiKey] = useState<string>('');
+  const [apiKey, setApiKey] = useState<string>(providedApiKey || '');
+  const [useContextualMode, setUseContextualMode] = useState(true);
 
   // Cache per le richieste AI
   const requestCache = new Map<string, Workout>();
+  const { context, processing: contextualProcessing, processMessage, clearPendingActions, updateUserProfile } = useContextualChat();
+
+  // Carica la chiave API dal database se non è fornita
+  useEffect(() => {
+    const loadApiKey = async () => {
+      if (!providedApiKey) {
+        try {
+          await db.open();
+          const prefs = await db.preferences.get('default');
+          if (prefs?.ai?.apiKey) {
+            setApiKey(prefs.ai.apiKey);
+            console.log('AI API key loaded from database');
+          }
+        } catch (error) {
+          console.error('Error loading AI API key:', error);
+        }
+      }
+    };
+
+    loadApiKey();
+  }, [providedApiKey]);
 
   const generateWorkout = useCallback(async (request: AiWorkoutRequest): Promise<Workout> => {
     setLoading(true);
@@ -407,13 +430,18 @@ Quale timer ti interessa utilizzare?`;
 
 Cosa vorresti sapere?`;
       } else {
-        response = `Grazie per il tuo messaggio! Al momento posso aiutarti principalmente con:
-
-• Creazione di schede di allenamento
-• Timer e cronometri
-• Consigli sul fitness
-
-C'è qualcosa di specifico su cui posso aiutarti?`;
+        // Per tutte le altre domande, usa l'API AI reale
+        if (apiKey) {
+          try {
+            response = await callChatAIForAdvice(content);
+          } catch (error) {
+            console.error('AI API error for advice, using fallback:', error);
+            response = generateFallbackAdvice(content);
+          }
+        } else {
+          // Fallback a risposte predefinite se non c'è chiave API
+          response = generateFallbackAdvice(content);
+        }
       }
 
       // Aggiungi risposta AI
@@ -438,7 +466,106 @@ C'è qualcosa di specifico su cui posso aiutarti?`;
 
       setMessages(prev => [...prev, errorMessage]);
     }
-  }, []);
+  }, [apiKey]);
+
+  const callChatAIForAdvice = async (content: string): Promise<string> => {
+    try {
+      const response = await fetch('https://chat.z.ai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+          model: 'gpt-3.5-turbo',
+          messages: [
+            {
+              role: 'system',
+              content: 'Sei un esperto personal trainer e coach fitness. Rispondi alle domande degli utenti in modo dettagliato, professionale e amichevole. Fornisci consigli pratici e basati sulla scienza dello sport.'
+            },
+            {
+              role: 'user',
+              content: content
+            }
+          ],
+          max_tokens: 1500,
+          temperature: 0.7
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`API call failed: ${response.status} ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      return data.choices[0].message.content;
+    } catch (error) {
+      console.error('Chat.z.ai API call failed:', error);
+      throw error;
+    }
+  };
+
+  const generateFallbackAdvice = (content: string): string => {
+    const lowerContent = content.toLowerCase();
+
+    if (lowerContent.includes('dimagrimento') || lowerContent.includes('perdere peso') || lowerContent.includes('definizione')) {
+      return `Per il dimagrimento efficace, ti consiglio:
+
+🔥 **Strategie principali:**
+- **Allenamento**: Combina esercizi cardio e di forza
+- **Nutrizione**: Deficit calorico controllato (300-500 kcal al giorno)
+- **Consistenza**: Allenamenti regolari e riposo adeguato
+
+💪 **Esempio di scheda dimagrimento:**
+- 20-30 minuti di cardio moderato
+- 3-4 esercizi di forza per i principali gruppi muscolari
+- 2-3 volte a settimana, con recupero adeguato
+
+Vuoi che crei una scheda specifica per il tuo livello e obiettivi?`;
+    }
+
+    if (lowerContent.includes('massa') || lowerContent.includes('ipertrofia') || lowerContent.includes('aumentare')) {
+      return `Per aumentare la massa muscolare:
+
+🏋️ **Principi fondamentali:**
+- **Sovraccarico progressivo**: Aumenta gradualmente pesi/ripetizioni
+- **Nutrizione**: Surplus calorico e proteine adeguate (1.6-2.2g/kg)
+- **Riposo**: 48-72 ore tra sessioni per lo stesso gruppo muscolare
+
+💡 **Consigli pratici:**
+- Concentrati su esercizi compound (squat, panca, stacchi)
+- 8-12 ripetizioni per ipertrofia
+- Dormi 7-9 ore per notte
+
+Posso creare una scheda personalizzata per te!`;
+    }
+
+    if (lowerContent.includes('forza')) {
+      return `Per migliorare la forza:
+
+⚡ **Metodologia:**
+- **Basse ripetizioni**: 3-6 ripetizioni con carichi pesanti
+- **Lunga pausa**: 2-3 minuti di recupero tra le serie
+- **Tecnica perfetta**: La forma è più importante del peso
+
+📈 **Programma consigliato:**
+- 3-4 sessioni a settimana
+- Focus su esercizi multi-articolari
+- Progressione graduale dei carichi
+
+Hai una esperienza specifica con cui posso aiutarti?`;
+    }
+
+    // Fallback generico
+    return `Sono un AI Coach fitness! Posso aiutarti con:
+
+🏋️ **Allenamento**: Schede personalizzate, tecniche esecutive, programmi
+🥗 **Nutrizione**: Consigli alimentari, integrazione, diete
+💪 **Obiettivi**: Dimagrimento, massa muscolare, forza, resistenza
+⏱️ **Timer**: HIIT, Tabata, circuit training
+
+Cosa ti interessa specificamente? Posso creare programmi dettagliati per le tue esigenze!`;
+  };
 
   const saveGeneratedWorkout = async (workout: Workout) => {
     try {
@@ -454,14 +581,84 @@ C'è qualcosa di specifico su cui posso aiutarti?`;
     setMessages([]);
   }, []);
 
+  // Funzione per aggiornare la chiave API e salvarla nel database
+  const updateApiKey = useCallback(async (newKey: string) => {
+    setApiKey(newKey);
+
+    // Salva nel database
+    try {
+      await db.open();
+      await db.preferences.update('default', {
+        ai: { apiKey: newKey }
+      });
+      console.log('AI API key saved to database');
+    } catch (error) {
+      console.error('Error saving AI API key:', error);
+    }
+  }, []);
+
+  const generateSimpleResponse = async (content: string): Promise<string> => {
+    // Per ora, implementiamo risposte semplici basate su keyword
+    if (content.toLowerCase().includes('scheda') || content.toLowerCase().includes('allenamento')) {
+      return `Posso aiutarti a creare una scheda personalizzata! Per poterti aiutare al meglio, ho bisogno di sapere:
+
+1. Quali sono i tuoi obiettivi? (forza, ipertrofia, definizione, resistenza)
+2. Qual è il tuo livello di esperienza? (principiante, intermedio, avanzato)
+3. Quanto tempo hai per l'allenamento?
+4. Che attrezzatura hai a disposizione?
+
+Dammi queste informazioni e creerò una scheda perfetta per te!`;
+    } else if (content.toLowerCase().includes('timer') || content.toLowerCase().includes('cronometro')) {
+      return `Posso aiutarti con i timer! Ho diversi tipi di timer disponibili:
+
+• **Timer Singolo**: Per riposo tra le serie
+• **Tabata**: 20s lavoro, 10s riposo, 8 round
+• **HIIT**: Personalizzabile con lavoro e riposo
+• **Circuit**: Per circuit training con più esercizi
+
+Quale timer ti interessa utilizzare?`;
+    } else if (content.toLowerCase().includes('consiglio') || content.toLowerCase().includes('aiuto')) {
+      return `Sono qui per aiutarti! Ecco cosa posso fare per te:
+
+• Creare schede di allenamento personalizzate
+• Fornire consigli su esercizi e tecnica
+• Suggerire timer per i tuoi allenamenti
+• Rispondere a domande sul fitness
+
+Cosa vorresti sapere?`;
+    } else {
+      // Per tutte le altre domande, usa l'API AI reale
+      if (apiKey) {
+        try {
+          return await callChatAIForAdvice(content);
+        } catch (error) {
+          console.error('AI API error for advice, using fallback:', error);
+          return generateFallbackAdvice(content);
+        }
+      } else {
+        // Fallback a risposte predefinite se non c'è chiave API
+        return generateFallbackAdvice(content);
+      }
+    }
+  };
+
+  const toggleContextualMode = useCallback(() => {
+    setUseContextualMode(prev => !prev);
+  }, []);
+
   return {
     messages,
-    loading,
+    loading: loading || contextualProcessing,
     generateWorkout,
     sendMessage,
     saveGeneratedWorkout,
     clearMessages,
     setMessages,
-    setApiKey
+    setApiKey: updateApiKey,
+    useContextualMode,
+    toggleContextualMode,
+    context,
+    updateUserProfile,
+    clearPendingActions
   };
 };

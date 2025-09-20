@@ -86,6 +86,7 @@ export interface UserPreferences {
   ai: {
     apiKey?: string;
     useGemini: boolean;
+    settings?: AISettings; // Nuovo sistema multi-provider
   };
 }
 
@@ -132,6 +133,7 @@ export enum Equipment {
   CABLE = 'cavi',
   MEDICINE_BALL = 'palla medica',
   FOAM_ROLLER = 'foam roller',
+  PARALLELS = 'parallele',
   OTHER = 'altro'
 }
 
@@ -174,4 +176,37 @@ export enum ExperienceLevel {
   BEGINNER = 'principiante',
   INTERMEDIATE = 'intermedio',
   ADVANCED = 'avanzato'
+}
+
+// Tipi per il sistema AI multi-provider
+export type AIProvider = 'chat.z.ai' | 'openai' | 'google' | 'claude' | 'mistral' | 'local' | 'openrouter' | 'custom';
+
+export interface AIProviderConfig {
+  provider: AIProvider;
+  apiKey?: string;
+  model?: string;
+  baseUrl?: string;
+  maxTokens?: number;
+  temperature?: number;
+  enabled: boolean;
+  priority: number; // Per fallback automatico
+  autoDetected?: boolean; // Se rilevato automaticamente
+  lastUsed?: Date; // Per tracking dell'utilizzo
+  successRate?: number; // Per performance tracking
+}
+
+export interface AISettings {
+  providers: AIProviderConfig[];
+  defaultProvider: AIProvider;
+  fallbackToTemplates: boolean;
+  enableCaching: boolean;
+  autoDetectProviders: boolean;
+  smartProviderSelection: boolean;
+}
+
+// Estendo l'interfaccia UserPreferences per supportare il nuovo sistema
+export interface EnhancedUserPreferences extends UserPreferences {
+  ai: UserPreferences['ai'] & {
+    settings?: AISettings; // Nuovo sistema multi-provider
+  };
 }

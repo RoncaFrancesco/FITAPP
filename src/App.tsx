@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import { Toaster } from 'react-hot-toast';
 import { useTheme } from './hooks/useTheme';
 import { db } from './db';
+import { initializeDatabase, getDatabaseStatus } from './utils/initializeDatabase';
 
 // Lazy loading delle pagine per ottimizzare le performance
 const HomePage = React.lazy(() => import('./pages/HomePage').then(module => ({ default: module.HomePage })));
@@ -11,6 +12,7 @@ const CreateWorkoutPage = React.lazy(() => import('./pages/CreateWorkoutPage').t
 const AICoachPage = React.lazy(() => import('./pages/AICoachPage').then(module => ({ default: module.AICoachPage })));
 const SettingsPage = React.lazy(() => import('./pages/SettingsPage').then(module => ({ default: module.SettingsPage })));
 const TimerPage = React.lazy(() => import('./pages/TimerPage').then(module => ({ default: module.TimerPage })));
+const ProgressPage = React.lazy(() => import('./pages/ProgressPage').then(module => ({ default: module.ProgressPage })));
 
 // Componente di loading
 const LoadingSpinner = () => (
@@ -53,11 +55,15 @@ const AppContent: React.FC = () => {
   const { isDark } = useTheme();
 
   useEffect(() => {
-    // Inizializza il database
+    // Inizializza il database con esercizi e preferenze
     const initializeApp = async () => {
       try {
         await db.open();
-        await db.initializeDefaultData();
+        await initializeDatabase();
+
+        // Verifica lo stato del database
+        const status = await getDatabaseStatus();
+        console.log('Database status:', status);
       } catch (error) {
         console.error('Error initializing database:', error);
         // L'app può funzionare anche senza database inizializzato subito
@@ -101,6 +107,7 @@ const AppContent: React.FC = () => {
             <Route path="/ai-coach" element={<AICoachPage />} />
             <Route path="/settings" element={<SettingsPage />} />
             <Route path="/timer" element={<TimerPage />} />
+            <Route path="/progress" element={<ProgressPage />} />
             </Routes>
         </Suspense>
 

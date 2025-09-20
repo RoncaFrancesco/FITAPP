@@ -38,30 +38,24 @@ const registerServiceWorker = () => {
   }
 };
 
-// Inizializza il tema prima del rendering
+// Inizializza il tema base prima del rendering (solo per evitare flash)
 const initializeTheme = () => {
-  // Verifica se c'è un tema salvato nel localStorage
+  // Applica solo la classe di base senza forzare stili
+  // Il tema completo verrà gestito dal hook useTheme
   const savedTheme = localStorage.getItem('theme') || 'system';
-  document.documentElement.setAttribute('data-theme', savedTheme);
 
-  // Forza tema chiaro come default per Android e iOS PWA
-  // ma rispetta le preferenze salvate
   let shouldApplyDark = false;
-
   if (savedTheme === 'dark') {
     shouldApplyDark = true;
   } else if (savedTheme === 'system') {
-    const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    shouldApplyDark = isDark;
+    shouldApplyDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
   }
 
-  // Applica il tema
+  // Applica solo le classi necessarie per Tailwind
   if (shouldApplyDark) {
     document.documentElement.classList.add('dark');
-    document.documentElement.style.colorScheme = 'dark';
   } else {
     document.documentElement.classList.remove('dark');
-    document.documentElement.style.colorScheme = 'light';
   }
 };
 

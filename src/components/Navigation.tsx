@@ -63,6 +63,12 @@ export const Navigation: React.FC<NavigationProps> = ({
       description: 'Gestisci le tue schede di allenamento'
     },
     {
+      icon: Activity,
+      label: 'Progressi',
+      path: '/progress',
+      description: 'Visualizza i tuoi progressi e statistiche'
+    },
+    {
       icon: Clock,
       label: 'Timer',
       path: '/timer',

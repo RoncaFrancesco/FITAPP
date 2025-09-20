@@ -8,43 +8,32 @@ import '@fontsource/inter/400.css';
 import '@fontsource/inter/600.css';
 import '@fontsource/inter/700.css';
 
-// Service Worker Registration con cache invalidation
+// Service Worker Registration con cache invalidation aggressiva
 const registerServiceWorker = () => {
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      // Cancella la cache vecchia prima di registrare il nuovo service worker
+      // Cancella TUTTA la cache all'avvio
       if ('caches' in window) {
         caches.keys().then(cacheNames => {
-          return Promise.all(
-            cacheNames.map(cacheName => {
-              if (cacheName.startsWith('workbox-') || cacheName.startsWith('fit-app-')) {
-                return caches.delete(cacheName);
-              }
-              return Promise.resolve();
-            })
-          );
+          return Promise.all(cacheNames.map(cacheName => caches.delete(cacheName)));
+        }).then(() => {
+          console.log('Cache cleared completely');
         });
       }
 
-      navigator.serviceWorker.register('/sw.js')
-        .then((registration) => {
-          console.log('SW registered: ', registration);
-
-          // Ascolta gli aggiornamenti (senza ricaricamento automatico)
-          registration.addEventListener('updatefound', () => {
-            const installingWorker = registration.installing;
-            if (installingWorker) {
-              installingWorker.addEventListener('statechange', () => {
-                if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                  console.log('Nuovo service worker disponibile, ricarica la pagina per applicare gli aggiornamenti');
-                }
-              });
-            }
+      // Unregister any existing service worker first
+      navigator.serviceWorker.getRegistrations().then(registrations => {
+        return Promise.all(registrations.map(reg => reg.unregister()));
+      }).then(() => {
+        // Register new service worker
+        navigator.serviceWorker.register('/sw.js?' + Date.now())
+          .then((registration) => {
+            console.log('SW registered: ', registration);
+          })
+          .catch((registrationError) => {
+            console.log('SW registration failed: ', registrationError);
           });
-        })
-        .catch((registrationError) => {
-          console.log('SW registration failed: ', registrationError);
-        });
+      });
     });
   }
 };
@@ -78,8 +67,20 @@ const initializeTheme = () => {
 
 initializeTheme();
 
-// Register Service Worker con cache invalidation
+// Register Service Worker con cache invalidation aggressiva
 registerServiceWorker();
+
+// Forza ricaricamento se rileva asset vecchi (problema Vercel cache)
+setTimeout(() => {
+  const currentScript = document.querySelector('script[src*="index-"]');
+  if (currentScript) {
+    const src = currentScript.getAttribute('src');
+    if (src && src.includes('index-C3smKjg4.js')) {
+      console.log('Rilevata vecchia versione degli asset, ricarico...');
+      window.location.reload();
+    }
+  }
+}, 1000);
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

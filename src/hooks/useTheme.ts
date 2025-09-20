@@ -8,18 +8,6 @@ export const useTheme = () => {
 
   useEffect(() => {
     loadPreferences();
-
-    // Ascolta i cambiamenti delle preferenze nel database
-    const handleStorageChange = () => {
-      loadPreferences();
-    };
-
-    // Usa un evento personalizzato per notificare i cambiamenti
-    window.addEventListener('theme-changed', handleStorageChange);
-
-    return () => {
-      window.removeEventListener('theme-changed', handleStorageChange);
-    };
   }, []);
 
   useEffect(() => {
@@ -75,9 +63,17 @@ export const useTheme = () => {
       await db.preferences.update('default', {
         theme: newTheme
       });
+
+      console.log('Theme saved successfully:', newTheme);
     } catch (error) {
       console.error('Error saving theme preference:', error);
-      // Don't show error to user, just failed silently
+      // Fallback to localStorage if database fails
+      try {
+        localStorage.setItem('theme', newTheme);
+        console.log('Theme saved to localStorage as fallback');
+      } catch (localError) {
+        console.error('Failed to save theme to localStorage:', localError);
+      }
     }
   };
 

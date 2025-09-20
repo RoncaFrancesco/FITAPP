@@ -175,32 +175,16 @@ export const SettingsPage: React.FC = () => {
   };
 
   const handleThemeChange = async (newTheme: 'light' | 'dark' | 'system') => {
+    // Usa il hook useTheme che gestisce tutto il salvataggio e l'applicazione
     setTheme(newTheme);
 
-    // Aggiorna anche le preferenze nel database
-    if (preferences) {
-      try {
-        await db.open();
-        await db.preferences.update('default', {
-          ...preferences,
-          theme: newTheme
-        });
+    // Aggiorna lo stato locale delle preferenze per mantenerlo sincronizzato
+    setPreferences(prev => ({
+      ...prev!,
+      theme: newTheme
+    }));
 
-        // Aggiorna lo stato locale delle preferenze
-        setPreferences(prev => ({
-          ...prev!,
-          theme: newTheme
-        }));
-
-        // Notifica il hook useTheme del cambiamento
-        window.dispatchEvent(new Event('theme-changed'));
-
-        console.log('Theme updated in database:', newTheme);
-        toast.success('Tema aggiornato!');
-      } catch (error) {
-        console.error('Error updating theme in database:', error);
-      }
-    }
+    toast.success('Tema aggiornato!');
   };
 
   const handleWorkoutImport = async (event: React.ChangeEvent<HTMLInputElement>) => {

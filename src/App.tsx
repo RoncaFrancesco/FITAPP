@@ -59,7 +59,7 @@ const AppContent: React.FC = () => {
         await db.open();
         await db.initializeDefaultData();
       } catch (error) {
-        console.error('Error initializing database:', error?.message || error?.name || error);
+        console.error('Error initializing database:', error);
         // L'app può funzionare anche senza database inizializzato subito
       }
     };

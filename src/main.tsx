@@ -8,13 +8,43 @@ import '@fontsource/inter/400.css';
 import '@fontsource/inter/600.css';
 import '@fontsource/inter/700.css';
 
-// Service Worker Registration
+// Service Worker Registration con cache invalidation
 const registerServiceWorker = () => {
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js')
+      // Cancella la cache vecchia prima di registrare il nuovo service worker
+      if ('caches' in window) {
+        caches.keys().then(cacheNames => {
+          return Promise.all(
+            cacheNames.map(cacheName => {
+              if (cacheName.startsWith('workbox-') || cacheName.startsWith('fit-app-')) {
+                return caches.delete(cacheName);
+              }
+              return Promise.resolve();
+            })
+          );
+        });
+      }
+
+      navigator.serviceWorker.register('/sw.js?v=' + Date.now())
         .then((registration) => {
           console.log('SW registered: ', registration);
+
+          // Forza l'aggiornamento del service worker
+          registration.update();
+
+          // Ascolta gli aggiornamenti
+          registration.addEventListener('updatefound', () => {
+            const installingWorker = registration.installing;
+            if (installingWorker) {
+              installingWorker.addEventListener('statechange', () => {
+                if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                  // Nuovo service worker installato, ricarica la pagina
+                  window.location.reload();
+                }
+              });
+            }
+          });
         })
         .catch((registrationError) => {
           console.log('SW registration failed: ', registrationError);
@@ -52,8 +82,8 @@ const initializeTheme = () => {
 
 initializeTheme();
 
-// Temporarily disable Service Worker to force fresh asset loading
-// registerServiceWorker();
+// Register Service Worker con cache invalidation
+registerServiceWorker();
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

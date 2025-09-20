@@ -11,6 +11,26 @@
   ],
   "routes": [
     {
+      "src": "/sw.js",
+      "dest": "/sw.js",
+      "headers": {
+        "cache-control": "no-cache, no-store, must-revalidate",
+        "pragma": "no-cache",
+        "expires": "0",
+        "content-type": "application/javascript"
+      }
+    },
+    {
+      "src": "/manifest.json",
+      "dest": "/manifest.json",
+      "headers": {
+        "cache-control": "no-cache, no-store, must-revalidate",
+        "pragma": "no-cache",
+        "expires": "0",
+        "content-type": "application/manifest+json"
+      }
+    },
+    {
       "src": "/assets/(.*)",
       "dest": "/assets/$1",
       "headers": {
